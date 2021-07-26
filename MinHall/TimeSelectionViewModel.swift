@@ -44,10 +44,15 @@ class TimeSelectionViewModel: ObservableObject {
     
     var onReserved: () -> Void = {}
     
-    private var startHourLimit = 0
-    private var startMinuteLimit = 0
-    private var endHourLimit = 0
-    private var endMinuteLimit = 0
+    private var startHourLowerLimit = -1
+    private var startMinuteLowerLimit = -1
+    private var endHourLowerLimit = -1
+    private var endMinuteLowerLimit = -1
+    
+    private let startHourUpperLimit = 23
+    private let startMinuteUpperLimit = 00
+    private let endHourUpperLimit = 23
+    private let endMinuteUpperLimit = 30
     
     init() {
         formatter.locale = Locale(identifier: "ko_kr")
@@ -84,9 +89,11 @@ class TimeSelectionViewModel: ObservableObject {
             startMinute = Int(formatter.string(from: now)) ?? 0
             
             if startMinute > 30 {
-                startMinute = 30
-            } else if startMinute > 0 {
                 startMinute = 0
+                startHour += 1
+                startHour %= 24
+            } else if startMinute > 0 {
+                startMinute = 30
             }
             
             endMinute = startMinute + 30
@@ -98,10 +105,10 @@ class TimeSelectionViewModel: ObservableObject {
                 endMinute %= 60
             }
             
-            self.startHourLimit = self.startHour
-            self.startMinuteLimit = self.startMinute
-            self.endHourLimit = self.endHour
-            self.endMinuteLimit = self.endMinute
+            self.startHourLowerLimit = self.startHour
+            self.startMinuteLowerLimit = self.startMinute
+            self.endHourLowerLimit = self.endHour
+            self.endMinuteLowerLimit = self.endMinute
         case let .reserved(startTime, endTime, _):
             let startTimeSplit = startTime.split(separator: ":")
             self.startHour = Int(startTimeSplit[0]) ?? 0
@@ -110,9 +117,10 @@ class TimeSelectionViewModel: ObservableObject {
             self.endHour = Int(endTimeSplit[0]) ?? 0
             self.endMinute = Int(endTimeSplit[1]) ?? 0
             
-            self.endHourLimit = self.endHour
-            self.endMinuteLimit = self.endMinute
+            self.endHourLowerLimit = self.endHour
+            self.endMinuteLowerLimit = self.endMinute
             self.isExtend = true
+            self.showAnnounce = false
         default:
             return
         }
@@ -147,11 +155,7 @@ class TimeSelectionViewModel: ObservableObject {
         if type == .start {
             changeStartMinute(by: modify.rawValue * minuteDelta)
         } else {
-            if modify != .decrease || endMinuteLimit != endMinute || endHourLimit != endHour {
-                if !isExtend || endHour != 0 || endMinute != 0 || modify != .increase {
-                    changeEndMinute(by: modify.rawValue * minuteDelta)
-                }
-            }
+            changeEndMinute(by: modify.rawValue * minuteDelta)
         }
     }
     
@@ -159,12 +163,7 @@ class TimeSelectionViewModel: ObservableObject {
         if type == .start {
             changeStartHour(by: modify.rawValue * hourDelta)
         } else {
-            if !(modify == .decrease &&
-                    (endHourLimit == endHour || (endHourLimit+1 == endHour && endMinuteLimit > endMinute))) {
-                if !isExtend || endHour != 23 {
-                    changeEndHour(by: modify.rawValue * hourDelta)
-                }
-            }
+            changeEndHour(by: modify.rawValue * hourDelta)
         }
     }
     
@@ -207,11 +206,25 @@ class TimeSelectionViewModel: ObservableObject {
         }
     }
     
+    private func validateStartTime(_ newStartHour: Int, _ newStartMinute: Int) -> Bool {
+        let lower = (newStartHour > startHourLowerLimit || (newStartHour == startHourLowerLimit && newStartMinute >= startMinuteLowerLimit))
+        let upper = (newStartHour < startHourUpperLimit || (newStartHour == startHourUpperLimit && newStartMinute <= startMinuteUpperLimit))
+        
+        return lower && upper
+    }
+    
+    private func validateEndTime(_ newEndHour: Int, _ newEndMinute: Int) -> Bool {
+        let lower = (newEndHour > endHourLowerLimit || (newEndHour == endHourLowerLimit && newEndMinute >= endMinuteLowerLimit))
+        let upper = (newEndHour < endHourUpperLimit || (newEndHour == endHourUpperLimit && newEndMinute <= endMinuteUpperLimit))
+        
+        return lower && upper
+    }
+    
     private func changeStartHour(by: Int) {
-        var newStartHour = startHour + by
-        newStartHour %= 24
-        if newStartHour < 0 {
-            newStartHour += 24
+        let newStartHour = startHour + by
+        
+        if !validateStartTime(newStartHour, startMinute) {
+            return
         }
         
         startHour = newStartHour
@@ -231,9 +244,8 @@ class TimeSelectionViewModel: ObservableObject {
             newStartHour += hDelta
         }
         
-        newStartHour %= 24
-        if newStartHour < 0 {
-            newStartHour += 24
+        if !validateStartTime(newStartHour, newStartMinute) {
+            return
         }
         
         startHour = newStartHour
@@ -243,10 +255,10 @@ class TimeSelectionViewModel: ObservableObject {
     }
     
     private func changeEndHour(by: Int) {
-        var newEndHour = endHour + by
-        newEndHour %= 24
-        if newEndHour < 0 {
-            newEndHour += 24
+        let newEndHour = endHour + by
+        
+        if !validateEndTime(newEndHour, endMinute) {
+            return
         }
         
         endHour = newEndHour
@@ -266,9 +278,8 @@ class TimeSelectionViewModel: ObservableObject {
             newEndHour += hDelta
         }
         
-        newEndHour %= 24
-        if newEndHour < 0 {
-            newEndHour += 24
+        if !validateEndTime(newEndHour, newEndMinute) {
+            return
         }
         
         endHour = newEndHour

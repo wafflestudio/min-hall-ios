@@ -16,10 +16,10 @@ extension View {
                     if isActive.wrappedValue {
                         ZStack {
                             Color.init(white: 0, opacity: 0.5)
+                                .edgesIgnoringSafeArea(.all)
                             
                             AnnounceModal(isActive: isActive, title: title, content: content, critical: critical)
                         }
-                        .zIndex(10000)
                     }
                 }
             )
@@ -62,7 +62,7 @@ struct AnnounceModal: View {
                     .frame(height: 58)
                     .frame(maxWidth: .infinity)
             }
-            .buttonStyle(MHButtonStyle())
+            .buttonStyle(MHButtonStyle(critical: critical))
         }
         .background(Color.white)
         .padding([.leading, .trailing], 20)

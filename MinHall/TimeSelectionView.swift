@@ -180,9 +180,8 @@ struct TimeSelectionView: View {
             
             doneButton
         }
+        .navigationBar(leadingItem: backButton)
         .announceModal(isActive: $viewModel.showAnnounce, title: "공간 사용 시 주의사항", content: viewModel.announce)
-        .navigationBarItems(leading: backButton)
-        .navigationBar()
         .background(Color("Background"))
         .edgesIgnoringSafeArea(.bottom)
         .onAppear {

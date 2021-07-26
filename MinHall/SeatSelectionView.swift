@@ -127,7 +127,7 @@ struct SeatSelectionView: View {
                         Rectangle()
                             .fill()
                             .foregroundColor(.white)
-                            .shadow(color: .init(white: 0, opacity: 0.15), radius: 2, x: 0, y: -2)
+                            .shadow(color: .init(white: 0, opacity: 0.15), radius: 1, x: 0, y: -2)
                         
                         Image("SeatInfo")
                             .resizable()
@@ -140,8 +140,7 @@ struct SeatSelectionView: View {
                 doneButton
             }
         }
-        .navigationBar()
-        .navigationBarItems(leading: backButton)
+        .navigationBar(leadingItem: backButton)
         .edgesIgnoringSafeArea(.bottom)
         .onAppear {
             viewModel.onReserved = presentReservationInfo
