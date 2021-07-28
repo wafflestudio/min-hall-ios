@@ -25,6 +25,10 @@ class AppState {
         self.accessToken = UserDefaults.standard.string(forKey: "accessToken") ?? ""
     }
     
+    func cancelReservation() {
+        self.reservationState = .none
+    }
+    
     func setReserved() -> Bool {
         switch self.reservationState {
         case let .seatSaved(startTime, endTime, seatId):

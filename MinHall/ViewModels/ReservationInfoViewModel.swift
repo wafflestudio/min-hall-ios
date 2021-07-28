@@ -15,6 +15,10 @@ class ReservationInfoViewModel: ObservableObject {
     
     @Published var seatId: Int = -1
     
+    @Published var showCancelAlert: Bool = false
+    
+    var onCanceled: () -> Void = {}
+    
     init() {
         getReservationInfo()
     }
@@ -99,5 +103,12 @@ class ReservationInfoViewModel: ObservableObject {
         default:
             return
         }
+    }
+    
+    func cancelReservation() {
+        // TODO: send request
+        
+        AppState.shared.cancelReservation()
+        self.onCanceled()
     }
 }

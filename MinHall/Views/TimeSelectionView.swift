@@ -13,7 +13,7 @@ extension TimeSelectionView {
             HStack {
                 Text("사용 \(type.rawValue) 시간")
                     .foregroundColor(Color("SubText"))
-                    .font(.system(size: 14))
+                    .font(.system(size: 14, weight: .semibold))
                 
                 Spacer()
             }
@@ -37,11 +37,11 @@ extension TimeSelectionView {
                     
                     Text(String(format: "%02d", viewModel.getHour(type: type)))
                         .foregroundColor(Color("Text"))
-                        .font(.system(size: 28))
+                        .font(.system(size: 28, weight: .semibold))
                         .frame(width: 40, height: 40)
                     Text("시")
                         .foregroundColor(Color("Text"))
-                        .font(.system(size: 12))
+                        .font(.system(size: 12, weight: .semibold))
                         .padding(.bottom, 11)
                     
                     Button(action: {
@@ -58,7 +58,7 @@ extension TimeSelectionView {
                 
                 Text(":")
                     .foregroundColor(Color("Text"))
-                    .font(.system(size: 28))
+                    .font(.system(size: 28, weight: .semibold))
                     .padding(.top, 37)
                 
                 VStack(spacing: 0) {
@@ -76,11 +76,11 @@ extension TimeSelectionView {
                     
                     Text(String(format: "%02d", viewModel.getMinute(type: type)))
                         .foregroundColor(Color("Text"))
-                        .font(.system(size: 28))
+                        .font(.system(size: 28, weight: .semibold))
                         .frame(width: 40, height: 40)
                     Text("분")
                         .foregroundColor(Color("Text"))
-                        .font(.system(size: 12))
+                        .font(.system(size: 12, weight: .semibold))
                         .padding(.bottom, 11)
                     
                     Button(action: {
@@ -118,6 +118,15 @@ extension TimeSelectionView {
         }
     }
     
+    var dotsButton: some View {
+        NavigationLink(destination: SettingsView()) {
+            Image("Dots")
+                .resizable()
+                .frame(width: 17, height: 3)
+                .padding(EdgeInsets(top: 6, leading: 6, bottom: 6, trailing: 0))
+        }
+    }
+    
     var doneButton: some View {
         Group {
             NavigationLink(destination: SeatSelectionView(), isActive: $viewModel.toSeatSelect) { EmptyView() }
@@ -152,7 +161,7 @@ struct TimeSelectionView: View {
                 Spacer()
                 Text(viewModel.today)
                     .foregroundColor(Color("Text"))
-                    .font(.system(size: 18))
+                    .font(.system(size: 18, weight: .semibold))
                 Spacer()
             }
             .frame(height: 60)
@@ -169,7 +178,7 @@ struct TimeSelectionView: View {
                 HStack {
                     Text("*30분 단위로 예약할 수 있습니다.")
                         .foregroundColor(Color("SubText"))
-                        .font(.system(size: 14))
+                        .font(.system(size: 14, weight: .semibold))
                     
                     Spacer()
                 }
@@ -180,7 +189,7 @@ struct TimeSelectionView: View {
             
             doneButton
         }
-        .navigationBar(leadingItem: backButton)
+        .navigationBar(leadingItem: backButton, trailingItem: dotsButton)
         .announceModal(isActive: $viewModel.showAnnounce, title: "공간 사용 시 주의사항", content: viewModel.announce)
         .background(Color("Background"))
         .edgesIgnoringSafeArea(.bottom)

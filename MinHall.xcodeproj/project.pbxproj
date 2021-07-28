@@ -32,6 +32,9 @@
 		1EC97E1026AD92590090BD4A /* SeatInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EC97E0F26AD92590090BD4A /* SeatInfo.swift */; };
 		1EC97E1326AD977E0090BD4A /* AnnounceModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EC97E1226AD977E0090BD4A /* AnnounceModal.swift */; };
 		1EC97E1526AD9BBF0090BD4A /* MHButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EC97E1426AD9BBF0090BD4A /* MHButtonStyle.swift */; };
+		1EC97E1726AF1E3C0090BD4A /* AlertModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EC97E1626AF1E3C0090BD4A /* AlertModal.swift */; };
+		1EC97E1D26AF2E670090BD4A /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EC97E1C26AF2E670090BD4A /* SettingsView.swift */; };
+		1EC97E1F26AF3ADF0090BD4A /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EC97E1E26AF3ADF0090BD4A /* SettingsViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +86,9 @@
 		1EC97E0F26AD92590090BD4A /* SeatInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeatInfo.swift; sourceTree = "<group>"; };
 		1EC97E1226AD977E0090BD4A /* AnnounceModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnounceModal.swift; sourceTree = "<group>"; };
 		1EC97E1426AD9BBF0090BD4A /* MHButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MHButtonStyle.swift; sourceTree = "<group>"; };
+		1EC97E1626AF1E3C0090BD4A /* AlertModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModal.swift; sourceTree = "<group>"; };
+		1EC97E1C26AF2E670090BD4A /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		1EC97E1E26AF3ADF0090BD4A /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,17 +141,11 @@
 			children = (
 				1EC97E0E26AD92480090BD4A /* Model */,
 				1EC97E1126AD959D0090BD4A /* ViewComponents */,
+				1EC97E1826AF2E0B0090BD4A /* Views */,
+				1EC97E1926AF2E200090BD4A /* ViewModels */,
 				1E8A2C2126A9E9C00029CD19 /* AppDelegate.swift */,
 				1E8A2C2326A9E9C00029CD19 /* SceneDelegate.swift */,
 				1E8A2C6726AB2C790029CD19 /* AppState.swift */,
-				1E8A2C2526A9E9C00029CD19 /* ContentView.swift */,
-				1E8A2C6326AB1FF20029CD19 /* TimeSelectionView.swift */,
-				1E8A2C6526AB23900029CD19 /* TimeSelectionViewModel.swift */,
-				1E8A2C5126A9E9ED0029CD19 /* SeatSelectionView.swift */,
-				1E8A2C5926A9EC550029CD19 /* SeatSelectionViewModel.swift */,
-				1E8A2C6926AB492D0029CD19 /* ReservationInfoView.swift */,
-				1E8A2C6B26AB494A0029CD19 /* ReservationInfoViewModel.swift */,
-				1E8A2C5B26AAE2380029CD19 /* LoginView.swift */,
 				1E8A2C5526A9EA220029CD19 /* Utils.swift */,
 				1E8A2C5726A9EA3C0029CD19 /* Extensions.swift */,
 				1E8A2C2726A9E9C30029CD19 /* Assets.xcassets */,
@@ -198,9 +198,34 @@
 				1E8A2C5F26AB11C90029CD19 /* CustomTextField.swift */,
 				1E8A2C5326A9EA000029CD19 /* LegacyScrollView.swift */,
 				1EC97E1226AD977E0090BD4A /* AnnounceModal.swift */,
+				1EC97E1626AF1E3C0090BD4A /* AlertModal.swift */,
 				1EC97E1426AD9BBF0090BD4A /* MHButtonStyle.swift */,
 			);
 			path = ViewComponents;
+			sourceTree = "<group>";
+		};
+		1EC97E1826AF2E0B0090BD4A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				1E8A2C6326AB1FF20029CD19 /* TimeSelectionView.swift */,
+				1E8A2C5126A9E9ED0029CD19 /* SeatSelectionView.swift */,
+				1E8A2C6926AB492D0029CD19 /* ReservationInfoView.swift */,
+				1EC97E1C26AF2E670090BD4A /* SettingsView.swift */,
+				1E8A2C2526A9E9C00029CD19 /* ContentView.swift */,
+				1E8A2C5B26AAE2380029CD19 /* LoginView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		1EC97E1926AF2E200090BD4A /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				1E8A2C6526AB23900029CD19 /* TimeSelectionViewModel.swift */,
+				1E8A2C5926A9EC550029CD19 /* SeatSelectionViewModel.swift */,
+				1E8A2C6B26AB494A0029CD19 /* ReservationInfoViewModel.swift */,
+				1EC97E1E26AF3ADF0090BD4A /* SettingsViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -334,10 +359,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				1E8A2C6226AB1A770029CD19 /* NavigationBarModifier.swift in Sources */,
+				1EC97E1F26AF3ADF0090BD4A /* SettingsViewModel.swift in Sources */,
 				1E8A2C6E26AB4C080029CD19 /* RoundedBackgroundModifier.swift in Sources */,
 				1E8A2C5226A9E9ED0029CD19 /* SeatSelectionView.swift in Sources */,
 				1E8A2C6626AB23900029CD19 /* TimeSelectionViewModel.swift in Sources */,
 				1EC97E1526AD9BBF0090BD4A /* MHButtonStyle.swift in Sources */,
+				1EC97E1726AF1E3C0090BD4A /* AlertModal.swift in Sources */,
 				1E8A2C6C26AB494A0029CD19 /* ReservationInfoViewModel.swift in Sources */,
 				1E8A2C5426A9EA000029CD19 /* LegacyScrollView.swift in Sources */,
 				1E8A2C2226A9E9C00029CD19 /* AppDelegate.swift in Sources */,
@@ -353,6 +380,7 @@
 				1E8A2C5A26A9EC550029CD19 /* SeatSelectionViewModel.swift in Sources */,
 				1E8A2C5826A9EA3C0029CD19 /* Extensions.swift in Sources */,
 				1EC97E1326AD977E0090BD4A /* AnnounceModal.swift in Sources */,
+				1EC97E1D26AF2E670090BD4A /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

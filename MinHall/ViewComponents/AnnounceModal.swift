@@ -20,6 +20,7 @@ extension View {
                             
                             AnnounceModal(isActive: isActive, title: title, content: content, critical: critical)
                         }
+                        .transition(.opacity.animation(.easeInOut(duration: 0.3)))
                     }
                 }
             )

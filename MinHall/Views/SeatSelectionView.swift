@@ -98,6 +98,15 @@ extension SeatSelectionView {
                 .padding(EdgeInsets(top: 6, leading: 0, bottom: 6, trailing: 6))
         }
     }
+    
+    var dotsButton: some View {
+        NavigationLink(destination: SettingsView()) {
+            Image("Dots")
+                .resizable()
+                .frame(width: 17, height: 3)
+                .padding(EdgeInsets(top: 6, leading: 6, bottom: 6, trailing: 0))
+        }
+    }
 }
 
 struct SeatSelectionView: View {
@@ -140,7 +149,7 @@ struct SeatSelectionView: View {
                 doneButton
             }
         }
-        .navigationBar(leadingItem: backButton)
+        .navigationBar(leadingItem: backButton, trailingItem: dotsButton)
         .edgesIgnoringSafeArea(.bottom)
         .onAppear {
             viewModel.onReserved = presentReservationInfo
@@ -152,6 +161,7 @@ struct SeatSelectionView: View {
             NavigationView {
                 ReservationInfoView()
             }
+            .navigationViewStyle(StackNavigationViewStyle())
         }
     }
 }

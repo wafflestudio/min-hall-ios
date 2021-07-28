@@ -46,8 +46,10 @@ struct NavigationBar<L: View, T: View>: View {
     
     var body: some View {
         HStack {
-            leading
-                .frame(width: 40)
+            HStack {
+                leading
+            }
+            .frame(width: 40, alignment: .leading)
             
             Spacer()
             
@@ -57,9 +59,12 @@ struct NavigationBar<L: View, T: View>: View {
             
             Spacer()
             
-            trailing
-                .frame(width: 40)
+            HStack {
+                trailing
+            }
+            .frame(width: 40, alignment: .trailing)
         }
+        .padding([.leading, .trailing], 20)
         .frame(width: UIScreen.main.bounds.width, height: 45)
         .background(
             Color.white
@@ -81,7 +86,6 @@ struct NavigationBarModifier<L: View, T: View>: ViewModifier {
             navigationBar
             content
         }
-        .navigationViewStyle(StackNavigationViewStyle())
         .navigationBarHidden(true)
     }
 }

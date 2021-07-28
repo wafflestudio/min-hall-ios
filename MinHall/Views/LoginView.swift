@@ -55,7 +55,8 @@ extension LoginView {
             
             CustomTextField(
                 placeholder: Text("비밀번호").foregroundColor(.white),
-                text: $password
+                text: $password,
+                secure: true
             )
             .foregroundColor(.white)
             .frame(height: 50)

@@ -8,6 +8,15 @@
 import SwiftUI
 
 extension ReservationInfoView {
+    var dotsButton: some View {
+        NavigationLink(destination: SettingsView()) {
+            Image("Dots")
+                .resizable()
+                .frame(width: 17, height: 3)
+                .padding(EdgeInsets(top: 6, leading: 6, bottom: 6, trailing: 0))
+        }
+    }
+    
     var ctaButton: some View {
         NavigationLink(
             destination: TimeSelectionView()
@@ -23,6 +32,7 @@ extension ReservationInfoView {
 }
 
 struct ReservationInfoView: View {
+    @Environment(\.viewController) var viewController
     @Environment(\.safeAreaInsets) var safeAreaInsets
     @StateObject var viewModel = ReservationInfoViewModel()
     
@@ -68,7 +78,7 @@ struct ReservationInfoView: View {
                         .font(.system(size: 28, weight: .bold))
                     
                     Button(action: {
-                        
+                        viewModel.showCancelAlert = true
                     }) {
                         RoundedRectangle(cornerRadius: 25)
                             .fill()
@@ -89,11 +99,31 @@ struct ReservationInfoView: View {
             
             ctaButton
         }
-        .navigationBar()
+        .navigationBar(trailingItem: dotsButton)
+        .alertModal(
+            isActive: $viewModel.showCancelAlert,
+            content: "정말 예약을 취소하시겠습니까?",
+            onAck: {
+                viewModel.cancelReservation()
+            },
+            onCancel: {
+                viewModel.showCancelAlert = false
+            }
+        )
         .background(Color("Background"))
         .edgesIgnoringSafeArea(.bottom)
         .onAppear {
             viewModel.getReservationInfo()
+            viewModel.onCanceled = presentTimeSelection
+        }
+    }
+    
+    func presentTimeSelection() {
+        viewController?.present(style: .fullScreen) {
+            NavigationView {
+                TimeSelectionView()
+            }
+            .navigationViewStyle(StackNavigationViewStyle())
         }
     }
 }

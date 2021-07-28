@@ -11,26 +11,28 @@ struct CustomTextField: View {
     var placeholder: Text
     @Binding var text: String
     var editingChanged: (Bool)->() = { _ in }
+    var secure: Bool = false
     var commit: ()->() = { }
-    
-    @State private var showPlaceholder: Bool = true
     
     var body: some View {
         ZStack(alignment: .leading) {
-            if showPlaceholder { placeholder }
-            TextField(
-                "",
-                text: $text,
-                onEditingChanged: { editing in
-                    editingChanged(editing)
-                    if editing {
-                        showPlaceholder = false
-                    } else {
-                        showPlaceholder = text.isEmpty
-                    }
-                },
-                onCommit: commit
-            )
+            if text.count == 0 { placeholder }
+            if !secure {
+                TextField(
+                    "",
+                    text: $text,
+                    onEditingChanged: editingChanged,
+                    onCommit: commit
+                )
+                .autocapitalization(.none)
+            } else {
+                SecureField(
+                    "",
+                    text: $text,
+                    onCommit: commit
+                )
+                .autocapitalization(.none)
+            }
         }
     }
 }
