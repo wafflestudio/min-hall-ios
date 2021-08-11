@@ -98,7 +98,7 @@ class TimeSelectionViewModel: ObservableObject {
             endMinute = startMinute + 30
             endHour = startHour + (endMinute / 60)
             if endHour >= 24 {
-                endHour = 0
+                endHour = 24
                 endMinute = 0
             } else {
                 endMinute %= 60
