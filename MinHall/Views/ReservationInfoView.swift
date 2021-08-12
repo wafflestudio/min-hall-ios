@@ -51,7 +51,7 @@ struct ReservationInfoView: View {
                 Spacer()
                 
                 ZStack {
-                    Image("MiniMap")
+                    Image("ReservationInfoMap")
                         .resizable()
                         .frame(width: 269, height: 118)
                         .background(
@@ -61,13 +61,18 @@ struct ReservationInfoView: View {
                         )
                         .padding(.bottom, 45)
                     
-                    ForEach(viewModel.seatInfos, id: \.id) { seat in
-                        Image(seat.id == viewModel.seatId ? "MiniMapSeatSelected" : "MiniMap"+seat.status.rawValue)
-                            .resizable()
-                            .rotationEffect(seat.angle)
-                            .frame(width: 6.5, height: 6.5)
-                            .position(MapUtil.transformCoordinate(seat.x, seat.y, frameWidth: 269, frameHeight: 118))
-                    }
+                    Image("MiniMapSeatSelected")
+                        .resizable()
+                        .rotationEffect(viewModel.seatAngle)
+                        .frame(width: 7, height: 7)
+                        .position(
+                            MapUtil.transformCoordinate(
+                                viewModel.seatCoord.x,
+                                viewModel.seatCoord.y,
+                                frameWidth: 269,
+                                frameHeight: 118
+                            )
+                        )
                 }
                 .frame(width: 269, height: 118)
                 
@@ -113,7 +118,7 @@ struct ReservationInfoView: View {
         .background(Color("Background"))
         .edgesIgnoringSafeArea(.bottom)
         .onAppear {
-            viewModel.getReservationInfo()
+            viewModel.loadReservationInfo()
             viewModel.onCanceled = presentTimeSelection
         }
     }

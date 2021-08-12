@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import SwiftyUserDefaults
 
 class TimeSelectionViewModel: ObservableObject {
     enum TimeType: String {
@@ -27,6 +28,8 @@ class TimeSelectionViewModel: ObservableObject {
     private let now = Date()
     
     private var cancellables = Set<AnyCancellable>()
+    
+    @Published var loading: Bool = false
     
     @Published var showAnnounce: Bool = true
     @Published var announce: String = "공간 사용 시 외부 음식물은 섭취할 수 없습니다. 당일 예약만 가능하며, 좌석 예약 후 사용하지 않을 시 경고 조치되며 경고 2회 누적 시 익일 사용 불가합니다."
@@ -66,7 +69,7 @@ class TimeSelectionViewModel: ObservableObject {
             .combineLatest($startMinute)
             .removeDuplicates { $0.0 == $1.0 && $0.1 == $1.1 }
             .sink { (hour, minute) in
-                AppState.shared.setStartTime(time: String(format: "%02d:%02d", hour, minute))
+                AppState.shared.reservationData.setStartTime(time: String(format: "%02d:%02d", hour, minute))
             }
             .store(in: &cancellables)
         
@@ -74,14 +77,25 @@ class TimeSelectionViewModel: ObservableObject {
             .combineLatest($endMinute)
             .removeDuplicates { $0.0 == $1.0 && $0.1 == $1.1 }
             .sink { (hour, minute) in
-                AppState.shared.setEndTime(time: String(format: "%02d:%02d", hour, minute))
+                AppState.shared.reservationData.setEndTime(time: String(format: "%02d:%02d", hour, minute))
             }
             .store(in: &cancellables)
     }
     
     private func setupTimes() {
-        switch AppState.shared.reservationState {
-        case .none:
+        if let reservation = AppState.shared.reservationData.reservation {
+            let startTimeSplit = reservation.startTime.split(separator: ":")
+            self.startHour = Int(startTimeSplit[0]) ?? 0
+            self.startMinute = Int(startTimeSplit[1]) ?? 0
+            let endTimeSplit = reservation.endTime.split(separator: ":")
+            self.endHour = Int(endTimeSplit[0]) ?? 0
+            self.endMinute = Int(endTimeSplit[1]) ?? 0
+            
+            self.endHourLowerLimit = self.endHour
+            self.endMinuteLowerLimit = self.endMinute
+            self.isExtend = true
+            self.showAnnounce = false
+        } else {
             formatter.dateFormat = "HH"
             startHour = Int(formatter.string(from: now)) ?? 0
             
@@ -108,29 +122,31 @@ class TimeSelectionViewModel: ObservableObject {
             self.startMinuteLowerLimit = self.startMinute
             self.endHourLowerLimit = self.endHour
             self.endMinuteLowerLimit = self.endMinute
-        case let .reserved(startTime, endTime, _):
-            let startTimeSplit = startTime.split(separator: ":")
-            self.startHour = Int(startTimeSplit[0]) ?? 0
-            self.startMinute = Int(startTimeSplit[1]) ?? 0
-            let endTimeSplit = endTime.split(separator: ":")
-            self.endHour = Int(endTimeSplit[0]) ?? 0
-            self.endMinute = Int(endTimeSplit[1]) ?? 0
-            
-            self.endHourLowerLimit = self.endHour
-            self.endMinuteLowerLimit = self.endMinute
-            self.isExtend = true
-            self.showAnnounce = false
-        default:
-            return
         }
     }
     
     func makeReservation() {
-        let valid = AppState.shared.setReserved()
-        if valid {
-            // .. send request
+        if let reservation = AppState.shared.reservationData.newReservation,
+           reservation.validate() {
+            let seatId = reservation.seatId
+            let startAt = reservation.startTime
+            let endAt = reservation.endTime
             
-            onReserved()
+            self.loading = true
+            
+            Networking.shared.makeReservation(studentId: "", seatId: seatId, startAt: startAt, endAt: endAt)
+                .receive(on: RunLoop.main)
+                .handleEvents(receiveOutput: { [weak self] _ in
+                    self?.loading = false
+                    Defaults[\.reserved] = true
+                    self?.onReserved()
+                }, receiveCompletion: { [weak self]_ in
+                    self?.loading = false
+                })
+                .sink { reservation in
+                    AppState.shared.reservationData.reservation = reservation
+                }
+                .store(in: &cancellables)
         }
     }
     

@@ -3,13 +3,13 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		1E8A2C2226A9E9C00029CD19 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E8A2C2126A9E9C00029CD19 /* AppDelegate.swift */; };
 		1E8A2C2426A9E9C00029CD19 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E8A2C2326A9E9C00029CD19 /* SceneDelegate.swift */; };
-		1E8A2C2626A9E9C00029CD19 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E8A2C2526A9E9C00029CD19 /* ContentView.swift */; };
+		1E8A2C2626A9E9C00029CD19 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E8A2C2526A9E9C00029CD19 /* MainView.swift */; };
 		1E8A2C2826A9E9C30029CD19 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1E8A2C2726A9E9C30029CD19 /* Assets.xcassets */; };
 		1E8A2C2B26A9E9C30029CD19 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1E8A2C2A26A9E9C30029CD19 /* Preview Assets.xcassets */; };
 		1E8A2C2E26A9E9C30029CD19 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1E8A2C2C26A9E9C30029CD19 /* LaunchScreen.storyboard */; };
@@ -17,7 +17,7 @@
 		1E8A2C4426A9E9C30029CD19 /* MinHallUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E8A2C4326A9E9C30029CD19 /* MinHallUITests.swift */; };
 		1E8A2C5226A9E9ED0029CD19 /* SeatSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E8A2C5126A9E9ED0029CD19 /* SeatSelectionView.swift */; };
 		1E8A2C5426A9EA000029CD19 /* LegacyScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E8A2C5326A9EA000029CD19 /* LegacyScrollView.swift */; };
-		1E8A2C5626A9EA220029CD19 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E8A2C5526A9EA220029CD19 /* Utils.swift */; };
+		1E8A2C5626A9EA220029CD19 /* MapUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E8A2C5526A9EA220029CD19 /* MapUtil.swift */; };
 		1E8A2C5826A9EA3C0029CD19 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E8A2C5726A9EA3C0029CD19 /* Extensions.swift */; };
 		1E8A2C5A26A9EC550029CD19 /* SeatSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E8A2C5926A9EC550029CD19 /* SeatSelectionViewModel.swift */; };
 		1E8A2C5C26AAE2380029CD19 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E8A2C5B26AAE2380029CD19 /* LoginView.swift */; };
@@ -29,12 +29,23 @@
 		1E8A2C6A26AB492D0029CD19 /* ReservationInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E8A2C6926AB492D0029CD19 /* ReservationInfoView.swift */; };
 		1E8A2C6C26AB494A0029CD19 /* ReservationInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E8A2C6B26AB494A0029CD19 /* ReservationInfoViewModel.swift */; };
 		1E8A2C6E26AB4C080029CD19 /* RoundedBackgroundModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E8A2C6D26AB4C080029CD19 /* RoundedBackgroundModifier.swift */; };
+		1E9C787526C3DCF900F3EAA8 /* MinHallAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E9C787426C3DCF900F3EAA8 /* MinHallAPI.swift */; };
+		1E9C787826C3DDDB00F3EAA8 /* config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1E9C787726C3DDDB00F3EAA8 /* config.plist */; };
+		1E9C787A26C3DE7C00F3EAA8 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E9C787926C3DE7C00F3EAA8 /* Config.swift */; };
+		1E9C787C26C3DFF900F3EAA8 /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E9C787B26C3DFF900F3EAA8 /* Defaults.swift */; };
+		1E9C787E26C3E66900F3EAA8 /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E9C787D26C3E66900F3EAA8 /* Networking.swift */; };
+		1E9C788026C3E71200F3EAA8 /* Responses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E9C787F26C3E71200F3EAA8 /* Responses.swift */; };
+		1E9C788226C4154500F3EAA8 /* Reservation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E9C788126C4154500F3EAA8 /* Reservation.swift */; };
+		1E9C788426C4163000F3EAA8 /* MHError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E9C788326C4163000F3EAA8 /* MHError.swift */; };
+		1E9C788626C417B000F3EAA8 /* AuthInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E9C788526C417B000F3EAA8 /* AuthInterceptor.swift */; };
+		1E9C788926C4E03300F3EAA8 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E9C788826C4E03300F3EAA8 /* LoginViewModel.swift */; };
 		1EC97E1026AD92590090BD4A /* SeatInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EC97E0F26AD92590090BD4A /* SeatInfo.swift */; };
 		1EC97E1326AD977E0090BD4A /* AnnounceModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EC97E1226AD977E0090BD4A /* AnnounceModal.swift */; };
 		1EC97E1526AD9BBF0090BD4A /* MHButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EC97E1426AD9BBF0090BD4A /* MHButtonStyle.swift */; };
 		1EC97E1726AF1E3C0090BD4A /* AlertModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EC97E1626AF1E3C0090BD4A /* AlertModal.swift */; };
 		1EC97E1D26AF2E670090BD4A /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EC97E1C26AF2E670090BD4A /* SettingsView.swift */; };
 		1EC97E1F26AF3ADF0090BD4A /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EC97E1E26AF3ADF0090BD4A /* SettingsViewModel.swift */; };
+		87DDD12A854A0D6390930D97 /* Pods_MinHall.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36B12A1A6C5B3B124363E3F0 /* Pods_MinHall.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,7 +69,7 @@
 		1E8A2C1E26A9E9C00029CD19 /* MinHall.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MinHall.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E8A2C2126A9E9C00029CD19 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1E8A2C2326A9E9C00029CD19 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		1E8A2C2526A9E9C00029CD19 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		1E8A2C2526A9E9C00029CD19 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		1E8A2C2726A9E9C30029CD19 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1E8A2C2A26A9E9C30029CD19 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		1E8A2C2D26A9E9C30029CD19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -71,7 +82,7 @@
 		1E8A2C4526A9E9C30029CD19 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1E8A2C5126A9E9ED0029CD19 /* SeatSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeatSelectionView.swift; sourceTree = "<group>"; };
 		1E8A2C5326A9EA000029CD19 /* LegacyScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegacyScrollView.swift; sourceTree = "<group>"; };
-		1E8A2C5526A9EA220029CD19 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		1E8A2C5526A9EA220029CD19 /* MapUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapUtil.swift; sourceTree = "<group>"; };
 		1E8A2C5726A9EA3C0029CD19 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		1E8A2C5926A9EC550029CD19 /* SeatSelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeatSelectionViewModel.swift; sourceTree = "<group>"; };
 		1E8A2C5B26AAE2380029CD19 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -83,12 +94,25 @@
 		1E8A2C6926AB492D0029CD19 /* ReservationInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservationInfoView.swift; sourceTree = "<group>"; };
 		1E8A2C6B26AB494A0029CD19 /* ReservationInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservationInfoViewModel.swift; sourceTree = "<group>"; };
 		1E8A2C6D26AB4C080029CD19 /* RoundedBackgroundModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedBackgroundModifier.swift; sourceTree = "<group>"; };
+		1E9C787426C3DCF900F3EAA8 /* MinHallAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinHallAPI.swift; sourceTree = "<group>"; };
+		1E9C787726C3DDDB00F3EAA8 /* config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = config.plist; sourceTree = "<group>"; };
+		1E9C787926C3DE7C00F3EAA8 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		1E9C787B26C3DFF900F3EAA8 /* Defaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Defaults.swift; sourceTree = "<group>"; };
+		1E9C787D26C3E66900F3EAA8 /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
+		1E9C787F26C3E71200F3EAA8 /* Responses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Responses.swift; sourceTree = "<group>"; };
+		1E9C788126C4154500F3EAA8 /* Reservation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reservation.swift; sourceTree = "<group>"; };
+		1E9C788326C4163000F3EAA8 /* MHError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MHError.swift; sourceTree = "<group>"; };
+		1E9C788526C417B000F3EAA8 /* AuthInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthInterceptor.swift; sourceTree = "<group>"; };
+		1E9C788826C4E03300F3EAA8 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		1EC97E0F26AD92590090BD4A /* SeatInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeatInfo.swift; sourceTree = "<group>"; };
 		1EC97E1226AD977E0090BD4A /* AnnounceModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnounceModal.swift; sourceTree = "<group>"; };
 		1EC97E1426AD9BBF0090BD4A /* MHButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MHButtonStyle.swift; sourceTree = "<group>"; };
 		1EC97E1626AF1E3C0090BD4A /* AlertModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModal.swift; sourceTree = "<group>"; };
 		1EC97E1C26AF2E670090BD4A /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		1EC97E1E26AF3ADF0090BD4A /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		313CC57C07A94053C24A0DA5 /* Pods-MinHall.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MinHall.release.xcconfig"; path = "Target Support Files/Pods-MinHall/Pods-MinHall.release.xcconfig"; sourceTree = "<group>"; };
+		36B12A1A6C5B3B124363E3F0 /* Pods_MinHall.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MinHall.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5C526874A2723A48B11E4859 /* Pods-MinHall.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MinHall.debug.xcconfig"; path = "Target Support Files/Pods-MinHall/Pods-MinHall.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +120,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				87DDD12A854A0D6390930D97 /* Pods_MinHall.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -116,6 +141,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		015886E1B96B07815B20040E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				36B12A1A6C5B3B124363E3F0 /* Pods_MinHall.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		1E8A2C1526A9E9C00029CD19 = {
 			isa = PBXGroup;
 			children = (
@@ -123,6 +156,8 @@
 				1E8A2C3726A9E9C30029CD19 /* MinHallTests */,
 				1E8A2C4226A9E9C30029CD19 /* MinHallUITests */,
 				1E8A2C1F26A9E9C00029CD19 /* Products */,
+				97F3C5272E4CAF27175E32BD /* Pods */,
+				015886E1B96B07815B20040E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -143,10 +178,12 @@
 				1EC97E1126AD959D0090BD4A /* ViewComponents */,
 				1EC97E1826AF2E0B0090BD4A /* Views */,
 				1EC97E1926AF2E200090BD4A /* ViewModels */,
+				1E9C787326C3B05C00F3EAA8 /* Networking */,
+				1E9C787626C3DDBF00F3EAA8 /* Supporting Files */,
+				1E9C788726C4CFCC00F3EAA8 /* Utils */,
 				1E8A2C2126A9E9C00029CD19 /* AppDelegate.swift */,
 				1E8A2C2326A9E9C00029CD19 /* SceneDelegate.swift */,
 				1E8A2C6726AB2C790029CD19 /* AppState.swift */,
-				1E8A2C5526A9EA220029CD19 /* Utils.swift */,
 				1E8A2C5726A9EA3C0029CD19 /* Extensions.swift */,
 				1E8A2C2726A9E9C30029CD19 /* Assets.xcassets */,
 				1E8A2C2C26A9E9C30029CD19 /* LaunchScreen.storyboard */,
@@ -182,10 +219,41 @@
 			path = MinHallUITests;
 			sourceTree = "<group>";
 		};
+		1E9C787326C3B05C00F3EAA8 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				1E9C787426C3DCF900F3EAA8 /* MinHallAPI.swift */,
+				1E9C787D26C3E66900F3EAA8 /* Networking.swift */,
+				1E9C788526C417B000F3EAA8 /* AuthInterceptor.swift */,
+				1E9C787F26C3E71200F3EAA8 /* Responses.swift */,
+				1E9C788326C4163000F3EAA8 /* MHError.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		1E9C787626C3DDBF00F3EAA8 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				1E9C787926C3DE7C00F3EAA8 /* Config.swift */,
+				1E9C787726C3DDDB00F3EAA8 /* config.plist */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		1E9C788726C4CFCC00F3EAA8 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				1E9C787B26C3DFF900F3EAA8 /* Defaults.swift */,
+				1E8A2C5526A9EA220029CD19 /* MapUtil.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		1EC97E0E26AD92480090BD4A /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				1EC97E0F26AD92590090BD4A /* SeatInfo.swift */,
+				1E9C788126C4154500F3EAA8 /* Reservation.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -211,7 +279,7 @@
 				1E8A2C5126A9E9ED0029CD19 /* SeatSelectionView.swift */,
 				1E8A2C6926AB492D0029CD19 /* ReservationInfoView.swift */,
 				1EC97E1C26AF2E670090BD4A /* SettingsView.swift */,
-				1E8A2C2526A9E9C00029CD19 /* ContentView.swift */,
+				1E8A2C2526A9E9C00029CD19 /* MainView.swift */,
 				1E8A2C5B26AAE2380029CD19 /* LoginView.swift */,
 			);
 			path = Views;
@@ -224,8 +292,18 @@
 				1E8A2C5926A9EC550029CD19 /* SeatSelectionViewModel.swift */,
 				1E8A2C6B26AB494A0029CD19 /* ReservationInfoViewModel.swift */,
 				1EC97E1E26AF3ADF0090BD4A /* SettingsViewModel.swift */,
+				1E9C788826C4E03300F3EAA8 /* LoginViewModel.swift */,
 			);
 			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		97F3C5272E4CAF27175E32BD /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5C526874A2723A48B11E4859 /* Pods-MinHall.debug.xcconfig */,
+				313CC57C07A94053C24A0DA5 /* Pods-MinHall.release.xcconfig */,
+			);
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -235,9 +313,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1E8A2C4826A9E9C30029CD19 /* Build configuration list for PBXNativeTarget "MinHall" */;
 			buildPhases = (
+				4AEB7370EC82A6FE1B0838B6 /* [CP] Check Pods Manifest.lock */,
 				1E8A2C1A26A9E9C00029CD19 /* Sources */,
 				1E8A2C1B26A9E9C00029CD19 /* Frameworks */,
 				1E8A2C1C26A9E9C00029CD19 /* Resources */,
+				7E3AF7F88B6F973CF1E4F889 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -333,6 +413,7 @@
 			files = (
 				1E8A2C2E26A9E9C30029CD19 /* LaunchScreen.storyboard in Resources */,
 				1E8A2C2B26A9E9C30029CD19 /* Preview Assets.xcassets in Resources */,
+				1E9C787826C3DDDB00F3EAA8 /* config.plist in Resources */,
 				1E8A2C2826A9E9C30029CD19 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -353,13 +434,57 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		4AEB7370EC82A6FE1B0838B6 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MinHall-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7E3AF7F88B6F973CF1E4F889 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MinHall/Pods-MinHall-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MinHall/Pods-MinHall-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MinHall/Pods-MinHall-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		1E8A2C1A26A9E9C00029CD19 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				1E8A2C6226AB1A770029CD19 /* NavigationBarModifier.swift in Sources */,
+				1E9C787C26C3DFF900F3EAA8 /* Defaults.swift in Sources */,
 				1EC97E1F26AF3ADF0090BD4A /* SettingsViewModel.swift in Sources */,
+				1E9C787E26C3E66900F3EAA8 /* Networking.swift in Sources */,
 				1E8A2C6E26AB4C080029CD19 /* RoundedBackgroundModifier.swift in Sources */,
 				1E8A2C5226A9E9ED0029CD19 /* SeatSelectionView.swift in Sources */,
 				1E8A2C6626AB23900029CD19 /* TimeSelectionViewModel.swift in Sources */,
@@ -368,18 +493,25 @@
 				1E8A2C6C26AB494A0029CD19 /* ReservationInfoViewModel.swift in Sources */,
 				1E8A2C5426A9EA000029CD19 /* LegacyScrollView.swift in Sources */,
 				1E8A2C2226A9E9C00029CD19 /* AppDelegate.swift in Sources */,
+				1E9C788026C3E71200F3EAA8 /* Responses.swift in Sources */,
 				1E8A2C5C26AAE2380029CD19 /* LoginView.swift in Sources */,
 				1E8A2C6026AB11C90029CD19 /* CustomTextField.swift in Sources */,
+				1E9C787A26C3DE7C00F3EAA8 /* Config.swift in Sources */,
 				1E8A2C6A26AB492D0029CD19 /* ReservationInfoView.swift in Sources */,
 				1EC97E1026AD92590090BD4A /* SeatInfo.swift in Sources */,
 				1E8A2C6426AB1FF20029CD19 /* TimeSelectionView.swift in Sources */,
 				1E8A2C2426A9E9C00029CD19 /* SceneDelegate.swift in Sources */,
+				1E9C788926C4E03300F3EAA8 /* LoginViewModel.swift in Sources */,
 				1E8A2C6826AB2C790029CD19 /* AppState.swift in Sources */,
-				1E8A2C2626A9E9C00029CD19 /* ContentView.swift in Sources */,
-				1E8A2C5626A9EA220029CD19 /* Utils.swift in Sources */,
+				1E8A2C2626A9E9C00029CD19 /* MainView.swift in Sources */,
+				1E9C787526C3DCF900F3EAA8 /* MinHallAPI.swift in Sources */,
+				1E9C788226C4154500F3EAA8 /* Reservation.swift in Sources */,
+				1E8A2C5626A9EA220029CD19 /* MapUtil.swift in Sources */,
+				1E9C788626C417B000F3EAA8 /* AuthInterceptor.swift in Sources */,
 				1E8A2C5A26A9EC550029CD19 /* SeatSelectionViewModel.swift in Sources */,
 				1E8A2C5826A9EA3C0029CD19 /* Extensions.swift in Sources */,
 				1EC97E1326AD977E0090BD4A /* AnnounceModal.swift in Sources */,
+				1E9C788426C4163000F3EAA8 /* MHError.swift in Sources */,
 				1EC97E1D26AF2E670090BD4A /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -545,6 +677,7 @@
 		};
 		1E8A2C4926A9E9C30029CD19 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5C526874A2723A48B11E4859 /* Pods-MinHall.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -566,6 +699,7 @@
 		};
 		1E8A2C4A26A9E9C30029CD19 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 313CC57C07A94053C24A0DA5 /* Pods-MinHall.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

@@ -1,0 +1,3 @@
+${PODS_ROOT}/Target Support Files/Pods-MinHall/Pods-MinHall-frameworks.sh
+${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework
+${BUILT_PRODUCTS_DIR}/SwiftyUserDefaults/SwiftyUserDefaults.framework

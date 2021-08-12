@@ -16,7 +16,7 @@ extension SeatSelectionView {
                 ForEach(viewModel.seatInfos, id: \.id) { seat in
                     Button(action: {
                         if viewModel.selectedSeat == seat.id {
-                            viewModel.selectedSeat = -1
+                            viewModel.selectedSeat = nil
                         } else {
                             viewModel.selectedSeat = seat.id
                         }
@@ -26,7 +26,10 @@ extension SeatSelectionView {
                             .rotationEffect(seat.angle)
                     }
                     .disabled(seat.status != .available)
-                    .frame(width: 42, height: 42)
+                    .frame(
+                        width: MapUtil.seatSize,
+                        height: MapUtil.seatSize
+                    )
                     .position(x: seat.x, y: seat.y)
                 }
             }
@@ -38,16 +41,25 @@ extension SeatSelectionView {
             Rectangle()
                 .fill()
                 .foregroundColor(Color("Text"))
-                .frame(width: 184, height: 80)
+                .frame(
+                    width: MapUtil.miniMapWidth,
+                    height: MapUtil.miniMapHeight
+                )
             Image("MiniMap")
                 .resizable()
-                .frame(width: 184, height: 80)
+                .frame(
+                    width: MapUtil.miniMapWidth,
+                    height: MapUtil.miniMapHeight
+                )
             
             ForEach(viewModel.seatInfos, id: \.id) { seat in
                 Image("MiniMap"+seat.status.rawValue)
                     .resizable()
                     .rotationEffect(seat.angle)
-                    .frame(width: 4.5, height: 4.5)
+                    .frame(
+                        width: MapUtil.miniSeatSize,
+                        height: MapUtil.miniSeatSize
+                    )
                     .position(MapUtil.transformCoordinate(seat.x, seat.y))
             }
             
@@ -70,8 +82,14 @@ extension SeatSelectionView {
         }
         .transition(.opacity.animation(.easeInOut))
         .zIndex(1)
-        .frame(width: 184, height: 80)
-        .position(x: 107, y: 55)
+        .frame(
+            width: MapUtil.miniMapWidth,
+            height: MapUtil.miniMapHeight
+        )
+        .position(
+            x: 15 + MapUtil.miniMapWidth/2,
+            y: 15 + MapUtil.miniMapHeight/2
+        )
     }
     
     var doneButton: some View {

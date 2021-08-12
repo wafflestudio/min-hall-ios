@@ -24,6 +24,7 @@ struct CustomTextField: View {
                     onEditingChanged: editingChanged,
                     onCommit: commit
                 )
+                .frame(maxHeight: .infinity)
                 .autocapitalization(.none)
             } else {
                 SecureField(
@@ -31,6 +32,7 @@ struct CustomTextField: View {
                     text: $text,
                     onCommit: commit
                 )
+                .frame(maxHeight: .infinity)
                 .autocapitalization(.none)
             }
         }

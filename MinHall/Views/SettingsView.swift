@@ -79,7 +79,7 @@ struct SettingsView: View {
     
     func presentLogin() {
         viewController?.present(style: .fullScreen) {
-            LoginView()
+            LoginView().environmentObject(AppState.shared)
         }
     }
 }

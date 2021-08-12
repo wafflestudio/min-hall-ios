@@ -10,9 +10,13 @@ import UIKit
 
 class MapUtil {
     static let mapWidth: CGFloat = 1904
-    static let mapHeight: CGFloat = 820
+    static let mapHeight: CGFloat = 772
     static let miniMapWidth: CGFloat = 184
     static let miniMapHeight: CGFloat = 80
+    
+    static let seatSize: CGFloat = 42
+    static let miniSeatSize: CGFloat = 4.5
+    
     
     static func transformCoordinate(_ x: CGFloat, _ y: CGFloat, frameWidth: CGFloat = miniMapWidth, frameHeight: CGFloat = miniMapHeight) -> CGPoint {
         return CGPoint(x: x * frameWidth/mapWidth, y: y * frameHeight / mapHeight)

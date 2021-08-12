@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import SwiftyUserDefaults
 
 class SettingsViewModel: ObservableObject {
     @Published var showLogoutAlert: Bool = false
@@ -14,9 +15,10 @@ class SettingsViewModel: ObservableObject {
     var onLoggedOut: () -> () = {}
     
     func logout() {
-        // .. Log out
-        
-        AppState.shared.cancelReservation()
+        AppState.shared.system.accessToken = nil
+        Defaults[\.accessToken] = nil
+        Defaults[\.username] = nil
+        Defaults[\.password] = nil
         onLoggedOut()
     }
 }

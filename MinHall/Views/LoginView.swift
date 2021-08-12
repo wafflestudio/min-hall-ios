@@ -21,7 +21,7 @@ extension LoginView {
             
             CustomTextField(
                 placeholder: Text("아이디").foregroundColor(.white),
-                text: $id
+                text: $viewModel.username
             )
             .foregroundColor(.white)
             .frame(height: 50)
@@ -55,7 +55,7 @@ extension LoginView {
             
             CustomTextField(
                 placeholder: Text("비밀번호").foregroundColor(.white),
-                text: $password,
+                text: $viewModel.password,
                 secure: true
             )
             .foregroundColor(.white)
@@ -84,8 +84,9 @@ extension LoginView {
 
 struct LoginView: View {
     @Environment(\.viewController) var viewController
-    @State var id: String = ""
-    @State var password: String = ""
+    @EnvironmentObject var appState: AppState
+    
+    @StateObject var viewModel = LoginViewModel()
     
     var body: some View {
         GeometryReader { geometry in
@@ -109,7 +110,7 @@ struct LoginView: View {
                 Spacer()
                 
                 Button(action: {
-                    presentMain()
+                    viewModel.login()
                 }) {
                     RoundedRectangle(cornerRadius: 5)
                         .fill()
@@ -132,11 +133,22 @@ struct LoginView: View {
             .edgesIgnoringSafeArea(.all)
         }
         .ignoresSafeArea(.keyboard)
+        .onAppear {
+            viewModel.onLoggedIn = presentMain
+        }
+        .alertModal(
+            isActive: $appState.system.error,
+            content: appState.system.errorMessage ?? "알 수 없는 에러가 발생했습니다.",
+            onAck: {
+                appState.system.error = false
+                appState.system.errorMessage = nil
+            }
+        )
     }
     
     func presentMain() {
         viewController?.present(style: .fullScreen) {
-            ContentView()
+            MainView().environmentObject(appState)
         }
     }
 }
