@@ -46,19 +46,45 @@ class ReservationInfoViewModel: ObservableObject {
         $canceledReservation
             .filter { $0 }
             .sink { [weak self] _ in
+                AppState.shared.reservationData.reservation = Reservation()
                 self?.onCanceled()
             }
             .store(in: &cancellables)
     }
     
     func loadReservationInfo() {
-        if let reservation = AppState.shared.reservationData.reservation, let id = reservation.id {
+        let reservation = AppState.shared.reservationData.reservation
+        if  let id = reservation.id {
             self.reservationId = id
-            self.startTime = reservation.startTime
-            self.endTime = reservation.endTime
+            let sIdx = reservation.startTime.index(reservation.startTime.endIndex, offsetBy: -5)
+            self.startTime = String(reservation.startTime[sIdx...])
+            let eIdx = reservation.endTime.index(reservation.endTime.endIndex, offsetBy: -5)
+            self.endTime = String(reservation.endTime[eIdx...])
             self.seatId = reservation.seatId
         }
-        AppState.shared.reservationData.newReservation = nil
+        AppState.shared.reservationData.newReservation = Reservation()
+    }
+    
+    func scheduleTimerAndNotification() {
+        let manager = LocalNotificationManager()
+        let endTimeSplit = endTime.split(separator: ":")
+        var alertHour = Int(endTimeSplit[0]) ?? 0
+        var alertMinute = Int(endTimeSplit[1]) ?? 0
+        
+        let fireDate = Calendar.current.date(bySettingHour: alertHour, minute: alertMinute, second: 0, of: Date())!
+        
+        alertMinute -= 5
+        if alertMinute < 0 {
+            alertMinute += 60
+            alertHour -= 1
+        }
+        manager.scheduleNotification(title: "민상렬홀 좌석 사용", body: "좌석 사용 시간이 곧 만료됩니다.", hour: alertHour, minute: alertMinute)
+        
+        let timer = Timer.init(fire: fireDate, interval: 0, repeats: false, block: { _ in
+            AppState.shared.reservationData.reservation = Reservation()
+        })
+        
+        RunLoop.current.add(timer, forMode: .common)
     }
     
     func cancelReservation() {
@@ -69,7 +95,6 @@ class ReservationInfoViewModel: ObservableObject {
             .handleEvents(receiveOutput: { [weak self] _ in
                 guard let self = self else { return }
                 self.loading = false
-                Defaults[\.reserved] = false
             }, receiveCompletion: { [weak self] _ in
                 guard let self = self else { return }
                 self.loading = false

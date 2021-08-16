@@ -31,8 +31,11 @@ class TimeSelectionViewModel: ObservableObject {
     
     @Published var loading: Bool = false
     
-    @Published var showAnnounce: Bool = true
+    @Published var showAnnounce: Bool = false
     @Published var announce: String = "공간 사용 시 외부 음식물은 섭취할 수 없습니다. 당일 예약만 가능하며, 좌석 예약 후 사용하지 않을 시 경고 조치되며 경고 2회 누적 시 익일 사용 불가합니다."
+    
+    @Published var showWarning: Bool = false
+    @Published var warning: String = ""
     
     @Published var startHour: Int = 0
     @Published var startMinute: Int = 0
@@ -45,25 +48,34 @@ class TimeSelectionViewModel: ObservableObject {
     @Published var toSeatSelect = false
     @Published var isExtend = false
     
-    var onReserved: () -> Void = {}
+    var onExtended: (() -> ())? = nil
     
     private var startHourLowerLimit = -1
     private var startMinuteLowerLimit = -1
     private var endHourLowerLimit = -1
     private var endMinuteLowerLimit = -1
     
-    private let startHourUpperLimit = 23
-    private let startMinuteUpperLimit = 00
-    private let endHourUpperLimit = 23
-    private let endMinuteUpperLimit = 30
+    private var startHourUpperLimit = 23
+    private var startMinuteUpperLimit = 00
+    private var endHourUpperLimit = 23
+    private var endMinuteUpperLimit = 30
     
     init() {
+        LocalNotificationManager().requestPermission()
+        
         formatter.locale = Locale(identifier: "ko_kr")
         
         formatter.dateFormat = "yyyy / MM / dd"
         today = formatter.string(from: now)
         
-        setupTimes()
+        self.fetchNotification()
+        
+        AppState.shared.$hasReservation
+            .receive(on: RunLoop.main)
+            .sink { [weak self] reserved in
+                self?.setupTimes()
+            }
+            .store(in: &cancellables)
         
         $startHour
             .combineLatest($startMinute)
@@ -82,19 +94,102 @@ class TimeSelectionViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
-    private func setupTimes() {
-        if let reservation = AppState.shared.reservationData.reservation {
-            let startTimeSplit = reservation.startTime.split(separator: ":")
+    func extendReservation() {
+        if let reservationId = AppState.shared.reservationData.reservation.id,
+           AppState.shared.reservationData.newReservation.endTime != "" {
+            let endAt = AppState.shared.reservationData.newReservation.endTime
+            
+            self.loading = true
+            
+            Networking.shared.extendReservation(reservationId: reservationId, endAt: endAt)
+                .receive(on: RunLoop.main)
+                .handleEvents(receiveOutput: { [weak self] _ in
+                    self?.loading = false
+                    (self?.onExtended ?? {})()
+                }, receiveCompletion: { [weak self] _ in
+                    self?.loading = false
+                })
+                .assign(to: \.reservationData.reservation, on: AppState.shared)
+                .store(in: &cancellables)
+        }
+    }
+    
+    func fetchTime() {
+        Networking.shared.getOperatingTime()
+            .receive(on: RunLoop.main)
+            .sink { [weak self] operatingTime in
+                guard let self = self else { return }
+                
+                let openTimeSplit = operatingTime.openTime.split(separator: ":")
+                let openHour = Int(openTimeSplit[0]) ?? 0
+                let openMinute = Int(openTimeSplit[1]) ?? 0
+                
+                self.startHourLowerLimit = openHour
+                self.startMinuteLowerLimit = openMinute
+                self.endMinuteLowerLimit = openMinute + self.minimumMinuteDelta
+                self.endHourLowerLimit = openHour + (self.endMinuteLowerLimit / 60)
+                self.endMinuteLowerLimit %= 60
+                
+                let closeTimeSplit = operatingTime.closeTime.split(separator: ":")
+                let closeHour = Int(closeTimeSplit[0]) ?? 0
+                let closeMinute = Int(closeTimeSplit[1]) ?? 0
+                
+                self.endHourUpperLimit = closeHour
+                self.endMinuteUpperLimit = closeMinute
+                self.startMinuteUpperLimit = closeMinute - self.minimumMinuteDelta
+                self.startHourUpperLimit = closeHour
+                if self.startMinuteUpperLimit < 0 {
+                    let hDelta = (self.startMinuteUpperLimit / 60) - 1
+                    self.startMinuteUpperLimit += (60 * -hDelta)
+                    self.startHourUpperLimit += hDelta
+                }
+                
+                self.setupTimes()
+            }
+            .store(in: &cancellables)
+    }
+    
+    func fetchNotification() {
+        if !AppState.shared.hasReservation {
+            self.loading = true
+            
+            Networking.shared.getNotification()
+                .zip(Networking.shared.getWarning())
+                .receive(on: RunLoop.main)
+                .handleEvents(receiveOutput: { [weak self] _ in
+                    self?.loading = false
+                }, receiveCompletion: { [weak self] _ in
+                    self?.loading = false
+                })
+                .sink { [weak self] noti, warn in
+                    self?.showAnnounce = noti.show
+                    self?.announce = noti.message
+                    self?.showWarning = warn.show
+                    self?.warning = warn.message
+                }
+                .store(in: &cancellables)
+        }
+    }
+    
+    func setupTimes() {
+        let reservation = AppState.shared.reservationData.reservation
+        
+        if reservation.id != nil {
+            let sIdx = reservation.startTime.index(reservation.startTime.endIndex, offsetBy: -5)
+            let startTimeSplit = reservation.startTime[sIdx...].split(separator: ":")
             self.startHour = Int(startTimeSplit[0]) ?? 0
             self.startMinute = Int(startTimeSplit[1]) ?? 0
-            let endTimeSplit = reservation.endTime.split(separator: ":")
+            let eIdx = reservation.endTime.index(reservation.endTime.endIndex, offsetBy: -5)
+            let endTimeSplit = reservation.endTime[eIdx...].split(separator: ":")
             self.endHour = Int(endTimeSplit[0]) ?? 0
             self.endMinute = Int(endTimeSplit[1]) ?? 0
             
             self.endHourLowerLimit = self.endHour
             self.endMinuteLowerLimit = self.endMinute
+            
+            adjustEndUpperLimit()
+            
             self.isExtend = true
-            self.showAnnounce = false
         } else {
             formatter.dateFormat = "HH"
             startHour = Int(formatter.string(from: now)) ?? 0
@@ -109,6 +204,9 @@ class TimeSelectionViewModel: ObservableObject {
                 startMinute = 30
             }
             
+            adjustStartLowerLimit()
+            adjustStartUpperLimit()
+
             endMinute = startMinute + 30
             endHour = startHour + (endMinute / 60)
             if endHour >= 24 {
@@ -118,51 +216,26 @@ class TimeSelectionViewModel: ObservableObject {
                 endMinute %= 60
             }
             
-            self.startHourLowerLimit = self.startHour
-            self.startMinuteLowerLimit = self.startMinute
-            self.endHourLowerLimit = self.endHour
-            self.endMinuteLowerLimit = self.endMinute
-        }
-    }
-    
-    func makeReservation() {
-        if let reservation = AppState.shared.reservationData.newReservation,
-           reservation.validate() {
-            let seatId = reservation.seatId
-            let startAt = reservation.startTime
-            let endAt = reservation.endTime
+            adjustEndLowerLimit()
+            adjustEndUpperLimit()
             
-            self.loading = true
-            
-            Networking.shared.makeReservation(studentId: "", seatId: seatId, startAt: startAt, endAt: endAt)
-                .receive(on: RunLoop.main)
-                .handleEvents(receiveOutput: { [weak self] _ in
-                    self?.loading = false
-                    Defaults[\.reserved] = true
-                    self?.onReserved()
-                }, receiveCompletion: { [weak self]_ in
-                    self?.loading = false
-                })
-                .sink { reservation in
-                    AppState.shared.reservationData.reservation = reservation
-                }
-                .store(in: &cancellables)
+            self.isExtend = false
         }
     }
     
     func getHour(type: TimeType) -> Int {
         if type == .start {
-            return self.startHour
+            return startHour
         } else {
-            return self.endHour
+            return endHour
         }
     }
     
     func getMinute(type: TimeType) -> Int {
         if type == .start {
-            return self.startMinute
+            return startMinute
         } else {
-            return self.endMinute
+            return endMinute
         }
     }
 
@@ -182,7 +255,7 @@ class TimeSelectionViewModel: ObservableObject {
         }
     }
     
-    // MARK:- Time Adjustment (private)
+    // MARK:- Time Adjustment (private - Do not need to change)
     
     private func adjustEndTime() {
         if (startHour > endHour) || (startHour == endHour && startMinute >= endMinute) {
@@ -233,6 +306,48 @@ class TimeSelectionViewModel: ObservableObject {
         let upper = (newEndHour < endHourUpperLimit || (newEndHour == endHourUpperLimit && newEndMinute <= endMinuteUpperLimit))
         
         return lower && upper
+    }
+    
+    private func adjustStartUpperLimit() {
+        if startHour > startHourUpperLimit {
+            startHour = startHourUpperLimit
+            startMinute = startMinuteUpperLimit
+        } else if startHour == startHourUpperLimit && startMinute > startMinuteUpperLimit {
+            startMinute = startMinuteUpperLimit
+        }
+    }
+    
+    private func adjustStartLowerLimit() {
+        if startHour < startHourLowerLimit {
+            startHour = startHourLowerLimit
+            startMinute = startMinuteLowerLimit
+        } else if startHour == startHourLowerLimit && startMinute < startMinuteLowerLimit {
+            startMinute = startMinuteLowerLimit
+        } else {
+            startHourLowerLimit = startHour
+            startMinuteLowerLimit = startMinute
+        }
+    }
+    
+    private func adjustEndUpperLimit() {
+        if endHour > endHourUpperLimit {
+            endHour = endHourUpperLimit
+            endMinute = endMinuteUpperLimit
+        } else if endHour == endHourUpperLimit && endMinute > endMinuteUpperLimit {
+            endMinute = endMinuteUpperLimit
+        }
+    }
+    
+    private func adjustEndLowerLimit() {
+        if endHour < endHourLowerLimit {
+            endHour = endHourLowerLimit
+            endMinute = endMinuteLowerLimit
+        } else if endHour == endHourLowerLimit && endMinute < endMinuteLowerLimit {
+            endMinute = endMinuteLowerLimit
+        } else {
+            endHourLowerLimit = endHour
+            endMinuteLowerLimit = endMinute
+        }
     }
     
     private func changeStartHour(by: Int) {

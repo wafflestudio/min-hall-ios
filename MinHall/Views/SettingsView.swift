@@ -48,6 +48,9 @@ struct SettingsView: View {
     
     var body: some View {
         VStack(spacing: 0) {
+            listItem(title: "문제 발생시 연락처", content: "010-0000-0000")
+                .padding(.bottom ,10)
+            
             Button(action: {
                 viewModel.showLogoutAlert = true
             }) {
@@ -55,10 +58,11 @@ struct SettingsView: View {
             }
             .padding(.bottom, 10)
             
-            listItem(title: "제작자", content: "WAFFLE STUDIO, JOO")
-            listItem(title: "문제 발생시 연락처", content: "010-0000-0000")
-            
             Spacer()
+
+            Image("WaffleLogo")
+                .frame(width: 200, height: 73.6)
+                .padding(.bottom, 70)
         }
         .navigationBar(leadingItem: backButton)
         .background(Color("Background"))
@@ -74,6 +78,9 @@ struct SettingsView: View {
         )
         .onAppear {
             viewModel.onLoggedOut = presentLogin
+        }
+        .onDisappear {
+            viewModel.onLoggedOut = nil
         }
     }
     

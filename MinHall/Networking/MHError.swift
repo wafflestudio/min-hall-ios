@@ -10,18 +10,10 @@ import Alamofire
 
 enum MHError: String, Error {
     init(_ error: AFError) {
-        #if DEBUG
-        print(error.underlyingError.debugDescription)
-        #endif
-        
         self = .network
     }
     
     init(code: String) {
-        #if DEBUG
-        print(code)
-        #endif
-        
         self = (.init(rawValue: code) ?? .network)
     }
     
@@ -111,7 +103,7 @@ enum MHError: String, Error {
     
     var needAlert: Bool {
         switch self {
-        case .todayReservationNotFound:
+        case .todayReservationNotFound, .missingToken:
             return false
         default:
             return true

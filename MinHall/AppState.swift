@@ -18,11 +18,27 @@ class AppState: ObservableObject {
 
     @Published var reservationData = ReservationData()
     
+    @Published var hasReservation: Bool = false
+    
+    @Published var loading = false
+    
     private init() {
+        $reservationData
+            .map { $0.reservation.id != nil }
+            .removeDuplicates()
+            .assign(to: \.hasReservation, on: self)
+            .store(in: &cancellables)
+        
         if system.accessToken != nil {
+            self.loading = true
+            
             Networking.shared.getMyReservation()
+                .handleEvents(receiveCompletion: { [weak self] _ in
+                    self?.loading = false
+                })
                 .receive(on: RunLoop.main)
-                .sink { reservation in
+                .sink { [weak self] reservation in
+                    self?.loading = false
                     AppState.shared.reservationData.reservation = reservation
                 }
                 .store(in: &cancellables)
@@ -42,33 +58,25 @@ extension AppState {
     }
     
     struct ReservationData {
-        var reservation: Reservation? = nil
-        var newReservation: Reservation? = nil
+        var reservation: Reservation = Reservation()
+        var newReservation: Reservation = Reservation()
         
         mutating func setStartTime(time: String) {
-            if newReservation != nil {
-                newReservation?.startTime = time
-            } else {
-                newReservation = Reservation()
-                newReservation?.startTime = time
-            }
+            newReservation.startTime = time
         }
         
         mutating func setEndTime(time: String) {
-            if reservation != nil, newReservation == nil {
+            if reservation.id != nil, newReservation.id == nil {
                 newReservation = reservation
-                newReservation?.id = nil
-                newReservation?.endTime = time
-            } else if newReservation == nil {
-                newReservation = Reservation()
-                newReservation?.endTime = time
+                newReservation.id = nil
+                newReservation.endTime = time
             } else {
-                newReservation?.endTime = time
+                newReservation.endTime = time
             }
         }
         
         mutating func setSeadId(id: String?) {
-            newReservation?.seatId = id ?? ""
+            newReservation.seatId = id ?? ""
         }
     }
 }

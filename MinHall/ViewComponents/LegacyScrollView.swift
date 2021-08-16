@@ -117,12 +117,16 @@ struct LegacyScrollView<Content: View>: UIViewRepresentable {
         }
         
         func scrollViewDidScroll(_ scrollView: UIScrollView) {
+            if !parent.reload {
                 parent.offset.x = scrollView.contentOffset.x
                 parent.offset.y = scrollView.contentOffset.y
+            }
         }
         
         func scrollViewDidZoom(_ scrollView: UIScrollView) {
+            if !parent.reload {
                 parent.offset.zoom = scrollView.zoomScale
+            }
         }
     }
 }

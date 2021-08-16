@@ -131,6 +131,7 @@ struct LoginView: View {
                 UIApplication.shared.endEditing()
             }
             .edgesIgnoringSafeArea(.all)
+            .loader(loading: $viewModel.loading)
         }
         .ignoresSafeArea(.keyboard)
         .onAppear {

@@ -117,18 +117,10 @@ struct ReservationInfoView: View {
         )
         .background(Color("Background"))
         .edgesIgnoringSafeArea(.bottom)
+        .animation(nil)
         .onAppear {
             viewModel.loadReservationInfo()
-            viewModel.onCanceled = presentTimeSelection
-        }
-    }
-    
-    func presentTimeSelection() {
-        viewController?.present(style: .fullScreen) {
-            NavigationView {
-                TimeSelectionView()
-            }
-            .navigationViewStyle(StackNavigationViewStyle())
+            viewModel.scheduleTimerAndNotification()
         }
     }
 }

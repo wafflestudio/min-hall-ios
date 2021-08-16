@@ -12,13 +12,13 @@ import SwiftyUserDefaults
 class SettingsViewModel: ObservableObject {
     @Published var showLogoutAlert: Bool = false
     
-    var onLoggedOut: () -> () = {}
+    var onLoggedOut: (() -> ())? = nil
     
     func logout() {
+        (onLoggedOut ?? {})()
         AppState.shared.system.accessToken = nil
         Defaults[\.accessToken] = nil
         Defaults[\.username] = nil
         Defaults[\.password] = nil
-        onLoggedOut()
     }
 }

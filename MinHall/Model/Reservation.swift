@@ -13,14 +13,14 @@ struct Reservation: Codable {
     var startTime: String = ""
     var endTime: String = ""
     
+    func validate() -> Bool {
+        return seatId != "" && startTime != "" && endTime != ""
+    }
+    
     enum CodingKeys: String, CodingKey {
         case id = "id"
         case seatId = "seatId"
         case startTime = "startAt"
         case endTime = "endAt"
-    }
-    
-    func validate() -> Bool {
-        return seatId != "" && startTime != "" && endTime != ""
     }
 }

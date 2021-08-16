@@ -50,6 +50,7 @@ struct AnnounceModal: View {
                 Text(content)
                     .foregroundColor(Color("Text"))
                     .font(.system(size: 14))
+                    .frame(maxWidth: .infinity, alignment: .leading)
             }
             .padding(EdgeInsets(top: 25, leading: 30, bottom: 35, trailing: 30))
             

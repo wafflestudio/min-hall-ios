@@ -11,14 +11,23 @@ struct MainView: View {
     @EnvironmentObject var appState: AppState
     
     var body: some View {
-        NavigationView {
-            if appState.reservationData.reservation == nil {
-                TimeSelectionView()
+        VStack {
+            if appState.hasReservation {
+                NavigationView {
+                    ReservationInfoView()
+                }
+                .navigationViewStyle(StackNavigationViewStyle())
+                .transition(.asymmetric(insertion: .move(edge: .bottom), removal: .opacity))
             } else {
-                ReservationInfoView()
+                NavigationView {
+                    TimeSelectionView()
+                }
+                .navigationViewStyle(StackNavigationViewStyle())
+                .transition(.asymmetric(insertion: .move(edge: .bottom), removal: .opacity))
             }
         }
-        .navigationViewStyle(StackNavigationViewStyle())
+        .animation(.linear)
+        .loader(loading: $appState.loading)
         .alertModal(
             isActive: $appState.system.error,
             content: appState.system.errorMessage ?? "알 수 없는 에러가 발생했습니다.",

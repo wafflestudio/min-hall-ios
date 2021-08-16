@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import Combine
 
 private struct ViewControllerHolder {
     weak var value: UIViewController?
@@ -50,6 +51,17 @@ extension UIViewController {
                 .environment(\.viewController, toPresent)
         )
         self.present(toPresent, animated: true, completion: nil)
+    }
+}
+
+extension Publisher where Failure == Never {
+    func assign<Root: AnyObject>(
+        to keyPath: ReferenceWritableKeyPath<Root, Output>,
+        onWeak object: Root
+    ) -> AnyCancellable {
+        sink { [weak object] value in
+            object?[keyPath: keyPath] = value
+        }
     }
 }
 

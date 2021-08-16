@@ -169,17 +169,9 @@ struct SeatSelectionView: View {
         }
         .navigationBar(leadingItem: backButton, trailingItem: dotsButton)
         .edgesIgnoringSafeArea(.bottom)
+        .loader(loading: $viewModel.loading)
         .onAppear {
-            viewModel.onReserved = presentReservationInfo
-        }
-    }
-    
-    func presentReservationInfo() {
-        viewController?.present(style: .fullScreen) {
-            NavigationView {
-                ReservationInfoView()
-            }
-            .navigationViewStyle(StackNavigationViewStyle())
+            viewModel.getSeatStatus()
         }
     }
 }

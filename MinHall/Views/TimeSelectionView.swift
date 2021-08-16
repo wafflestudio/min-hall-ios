@@ -119,11 +119,14 @@ extension TimeSelectionView {
     }
     
     var dotsButton: some View {
-        NavigationLink(destination: SettingsView()) {
-            Image("Dots")
-                .resizable()
-                .frame(width: 17, height: 3)
-                .padding(EdgeInsets(top: 6, leading: 6, bottom: 6, trailing: 0))
+        Group {
+            NavigationLink(destination: SettingsView()) {
+                Image("Dots")
+                    .resizable()
+                    .frame(width: 17, height: 3)
+                    .padding(EdgeInsets(top: 6, leading: 6, bottom: 6, trailing: 0))
+            }
+            NavigationLink(destination: EmptyView(), label: { EmptyView() }) // Had to add empty navigation link due to SwiftUI bug...
         }
     }
     
@@ -133,7 +136,7 @@ extension TimeSelectionView {
             
             Button(action: {
                 if viewModel.isExtend {
-                    viewModel.makeReservation()
+                    viewModel.extendReservation()
                 } else {
                     viewModel.toSeatSelect = true
                 }
@@ -191,12 +194,19 @@ struct TimeSelectionView: View {
         }
         .navigationBar(leadingItem: backButton, trailingItem: dotsButton)
         .announceModal(isActive: $viewModel.showAnnounce, title: "공간 사용 시 주의사항", content: viewModel.announce)
+        .announceModal(isActive: $viewModel.showWarning, title: "경고 알림", content: viewModel.warning, critical: true)
         .background(Color("Background"))
         .edgesIgnoringSafeArea(.bottom)
+        .loader(loading: $viewModel.loading)
+        .animation(nil)
         .onAppear {
-            viewModel.onReserved = {
+            viewModel.fetchTime()
+            viewModel.onExtended = {
                 self.presentationMode.wrappedValue.dismiss()
             }
+        }
+        .onDisappear {
+            viewModel.onExtended = nil
         }
     }
 }

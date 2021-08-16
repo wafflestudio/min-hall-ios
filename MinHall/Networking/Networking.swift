@@ -20,7 +20,14 @@ class Networking {
     }
     
     private func errorHandler<T>(error: AFError) -> Combine.Empty<T, Never> {
+        #if DEBUG
+        print(error.errorDescription)
+        #endif
+        
         if let error = error.underlyingError as? MHError {
+            #if DEBUG
+            print(error.rawValue)
+            #endif
             AppState.shared.system.error = error.needAlert
             AppState.shared.system.errorMessage = error.message
         }
@@ -78,14 +85,21 @@ class Networking {
     }
     
     func makeReservation(
-        studentId: String,
         seatId: String,
         startAt: String,
         endAt: String
     ) -> AnyPublisher<Reservation, Never> {
         let request = session.request(
-            MinHallAPI.postReservation(studentId: studentId, seatId: seatId, startAt: startAt, endAt: endAt)
+            MinHallAPI.postReservation(seatId: seatId, startAt: startAt, endAt: endAt)
         )
+        return request.validate(validation).publishDecodable(type: Reservation.self)
+            .value()
+            .catch(errorHandler)
+            .eraseToAnyPublisher()
+    }
+    
+    func extendReservation(reservationId: Int, endAt: String) -> AnyPublisher<Reservation, Never> {
+        let request = session.request(MinHallAPI.patchReservation(id: reservationId, endAt: endAt))
         return request.validate(validation).publishDecodable(type: Reservation.self)
             .value()
             .catch(errorHandler)
@@ -94,7 +108,7 @@ class Networking {
     
     func cancelReservation(reservationId: Int) -> AnyPublisher<Bool, Never> {
         let request = session.request(MinHallAPI.deleteReservation(id: reservationId))
-        return request.validate(validation).publishData()
+        return request.validate(validation).publishData(emptyResponseCodes: [200])
             .value()
             .catch(errorHandler)
             .map { _ in true }
@@ -104,6 +118,30 @@ class Networking {
     func getSeats(startAt: String, endAt: String) -> AnyPublisher<SeatResponse, Never> {
         let request = session.request(MinHallAPI.getSeats(startAt: startAt, endAt: endAt))
         return request.validate(validation).publishDecodable(type: SeatResponse.self)
+            .value()
+            .catch(errorHandler)
+            .eraseToAnyPublisher()
+    }
+    
+    func getOperatingTime() -> AnyPublisher<OperatingTimeResponse, Never> {
+        let request = session.request(MinHallAPI.getOperatingTime)
+        return request.validate(validation).publishDecodable(type: OperatingTimeResponse.self)
+            .value()
+            .catch(errorHandler)
+            .eraseToAnyPublisher()
+    }
+    
+    func getNotification() -> AnyPublisher<MessageResponse, Never> {
+        let request = session.request(MinHallAPI.getNotification)
+        return request.validate(validation).publishDecodable(type: MessageResponse.self)
+            .value()
+            .catch(errorHandler)
+            .eraseToAnyPublisher()
+    }
+    
+    func getWarning() -> AnyPublisher<MessageResponse, Never> {
+        let request = session.request(MinHallAPI.getWarning)
+        return request.validate(validation).publishDecodable(type: MessageResponse.self)
             .value()
             .catch(errorHandler)
             .eraseToAnyPublisher()

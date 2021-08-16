@@ -18,7 +18,17 @@ struct SeatDto: Codable {
 }
 
 struct SeatResponse: Codable {
-    var seatDtoList: [SeatDto]
+    var seats: [SeatDto]
+}
+
+struct OperatingTimeResponse: Codable {
+    var openTime: String
+    var closeTime: String
+}
+
+struct MessageResponse: Codable {
+    var show: Bool
+    var message: String
 }
 
 struct ErrorResponse: Codable {

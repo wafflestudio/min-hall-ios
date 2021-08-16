@@ -20,8 +20,6 @@ class SeatSelectionViewModel: ObservableObject {
     @Published var selected: Bool = false
     @Published var reloadScrollView: Bool = false
     
-    var onReserved: () -> Void = {}
-    
     @Published var seatInfos: [SeatInfo]
     
     init() {
@@ -37,66 +35,63 @@ class SeatSelectionViewModel: ObservableObject {
         
         $selectedSeat
             .dropFirst()
-            .handleEvents(receiveOutput: { id in
-                self.reloadScrollView = true
+            .handleEvents(receiveOutput: { [weak self] id in
+                if self?.reloadScrollView != true {
+                    self?.reloadScrollView = true
+                }
                 AppState.shared.reservationData.setSeadId(id: id)
             })
             .map { $0 != nil }
-            .assign(to: \.selected, on: self)
+            .assign(to: \.selected, onWeak: self)
             .store(in: &cancellables)
     }
     
     func getSeatStatus() {
-        if let reservation = AppState.shared.reservationData.newReservation {
-            let startAt = reservation.startTime
-            let endAt = reservation.endTime
-            
-            self.loading = true
-            
-            Networking.shared.getSeats(startAt: startAt, endAt: endAt)
-                .map(\.seatDtoList)
-                .receive(on: RunLoop.main)
-                .handleEvents(receiveOutput: { [weak self] _ in
-                    self?.loading = false
-                }, receiveCompletion: { [weak self] _ in
-                    self?.loading = false
-                })
-                .sink { [weak self] seats in
-                    guard let self = self else { return }
-                    seats.forEach { seat in
-                        var status = SeatStatus.available
-                        if !seat.isAvailable { status = .disabled }
-                        if seat.isReserved { status = .occupied }
-                        if let idx = self.seatInfos.firstIndex(where: { $0.id == seat.id }) {
-                            self.seatInfos[idx].status = status
-                        }
+        let reservation = AppState.shared.reservationData.newReservation
+        let startAt = reservation.startTime
+        let endAt = reservation.endTime
+        
+        self.loading = true
+        
+        Networking.shared.getSeats(startAt: startAt, endAt: endAt)
+            .map(\.seats)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] seats in
+                guard let self = self else { return }
+                seats.forEach { [weak self] seat in
+                    var status = SeatStatus.available
+                    if !seat.isAvailable { status = .disabled }
+                    if seat.isReserved { status = .occupied }
+                    if let idx = self?.seatInfos.firstIndex(where: { $0.id == seat.id }) {
+                        self?.seatInfos[idx].status = status
                     }
                 }
-                .store(in: &cancellables)
-        }
+                
+                if !self.reloadScrollView {
+                    self.reloadScrollView = true
+                }
+                self.loading = false
+            }
+            .store(in: &cancellables)
     }
     
     func makeReservation() {
-        if let reservation = AppState.shared.reservationData.newReservation,
-           reservation.validate() {
+        let reservation = AppState.shared.reservationData.newReservation
+        if reservation.validate() {
             let seatId = reservation.seatId
             let startAt = reservation.startTime
             let endAt = reservation.endTime
             
             self.loading = true
             
-            Networking.shared.makeReservation(studentId: "", seatId: seatId, startAt: startAt, endAt: endAt)
+            Networking.shared.makeReservation(seatId: seatId, startAt: startAt, endAt: endAt)
                 .receive(on: RunLoop.main)
                 .handleEvents(receiveOutput: { [weak self] _ in
                     self?.loading = false
-                    Defaults[\.reserved] = true
-                    self?.onReserved()
                 }, receiveCompletion: { [weak self] _ in
                     self?.loading = false
                 })
-                .sink { reservation in
-                    AppState.shared.reservationData.reservation = reservation
-                }
+                .assign(to: \.reservationData.reservation, on: AppState.shared)
                 .store(in: &cancellables)
         }
     }

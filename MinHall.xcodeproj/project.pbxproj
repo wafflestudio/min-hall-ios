@@ -45,6 +45,8 @@
 		1EC97E1726AF1E3C0090BD4A /* AlertModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EC97E1626AF1E3C0090BD4A /* AlertModal.swift */; };
 		1EC97E1D26AF2E670090BD4A /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EC97E1C26AF2E670090BD4A /* SettingsView.swift */; };
 		1EC97E1F26AF3ADF0090BD4A /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EC97E1E26AF3ADF0090BD4A /* SettingsViewModel.swift */; };
+		1EEEA3B926C913AB000F1129 /* LoaderModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEEA3B826C913AB000F1129 /* LoaderModifier.swift */; };
+		1EEEA3BB26C9481D000F1129 /* LocalNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEEA3BA26C9481D000F1129 /* LocalNotificationManager.swift */; };
 		87DDD12A854A0D6390930D97 /* Pods_MinHall.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36B12A1A6C5B3B124363E3F0 /* Pods_MinHall.framework */; };
 /* End PBXBuildFile section */
 
@@ -110,6 +112,8 @@
 		1EC97E1626AF1E3C0090BD4A /* AlertModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModal.swift; sourceTree = "<group>"; };
 		1EC97E1C26AF2E670090BD4A /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		1EC97E1E26AF3ADF0090BD4A /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		1EEEA3B826C913AB000F1129 /* LoaderModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderModifier.swift; sourceTree = "<group>"; };
+		1EEEA3BA26C9481D000F1129 /* LocalNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationManager.swift; sourceTree = "<group>"; };
 		313CC57C07A94053C24A0DA5 /* Pods-MinHall.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MinHall.release.xcconfig"; path = "Target Support Files/Pods-MinHall/Pods-MinHall.release.xcconfig"; sourceTree = "<group>"; };
 		36B12A1A6C5B3B124363E3F0 /* Pods_MinHall.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MinHall.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C526874A2723A48B11E4859 /* Pods-MinHall.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MinHall.debug.xcconfig"; path = "Target Support Files/Pods-MinHall/Pods-MinHall.debug.xcconfig"; sourceTree = "<group>"; };
@@ -245,6 +249,7 @@
 			children = (
 				1E9C787B26C3DFF900F3EAA8 /* Defaults.swift */,
 				1E8A2C5526A9EA220029CD19 /* MapUtil.swift */,
+				1EEEA3BA26C9481D000F1129 /* LocalNotificationManager.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -263,6 +268,7 @@
 			children = (
 				1E8A2C6126AB1A770029CD19 /* NavigationBarModifier.swift */,
 				1E8A2C6D26AB4C080029CD19 /* RoundedBackgroundModifier.swift */,
+				1EEEA3B826C913AB000F1129 /* LoaderModifier.swift */,
 				1E8A2C5F26AB11C90029CD19 /* CustomTextField.swift */,
 				1E8A2C5326A9EA000029CD19 /* LegacyScrollView.swift */,
 				1EC97E1226AD977E0090BD4A /* AnnounceModal.swift */,
@@ -483,12 +489,14 @@
 			files = (
 				1E8A2C6226AB1A770029CD19 /* NavigationBarModifier.swift in Sources */,
 				1E9C787C26C3DFF900F3EAA8 /* Defaults.swift in Sources */,
+				1EEEA3BB26C9481D000F1129 /* LocalNotificationManager.swift in Sources */,
 				1EC97E1F26AF3ADF0090BD4A /* SettingsViewModel.swift in Sources */,
 				1E9C787E26C3E66900F3EAA8 /* Networking.swift in Sources */,
 				1E8A2C6E26AB4C080029CD19 /* RoundedBackgroundModifier.swift in Sources */,
 				1E8A2C5226A9E9ED0029CD19 /* SeatSelectionView.swift in Sources */,
 				1E8A2C6626AB23900029CD19 /* TimeSelectionViewModel.swift in Sources */,
 				1EC97E1526AD9BBF0090BD4A /* MHButtonStyle.swift in Sources */,
+				1EEEA3B926C913AB000F1129 /* LoaderModifier.swift in Sources */,
 				1EC97E1726AF1E3C0090BD4A /* AlertModal.swift in Sources */,
 				1E8A2C6C26AB494A0029CD19 /* ReservationInfoViewModel.swift in Sources */,
 				1E8A2C5426A9EA000029CD19 /* LegacyScrollView.swift in Sources */,
