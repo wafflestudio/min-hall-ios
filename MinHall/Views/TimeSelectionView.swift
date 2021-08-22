@@ -205,6 +205,9 @@ struct TimeSelectionView: View {
                 self.presentationMode.wrappedValue.dismiss()
             }
         }
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
+            viewModel.fetchTime()
+        }
         .onDisappear {
             viewModel.onExtended = nil
         }

@@ -14,6 +14,8 @@ class MapUtil {
     static let miniMapWidth: CGFloat = 184
     static let miniMapHeight: CGFloat = 80
     
+    static let screenHeightMargin: CGFloat = 200
+    
     static let seatSize: CGFloat = 42
     static let miniSeatSize: CGFloat = 4.5
     
@@ -37,7 +39,7 @@ class MapUtil {
     }
 
     static func getBoxHeight(zoom: CGFloat) -> CGFloat {
-        let screenHeight = UIScreen.main.bounds.height-200
+        let screenHeight = UIScreen.main.bounds.height-screenHeightMargin
         
         return (screenHeight * miniMapHeight) / (zoom * mapHeight)
     }

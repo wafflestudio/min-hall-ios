@@ -48,7 +48,7 @@ struct SettingsView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            listItem(title: "문제 발생시 연락처", content: "010-0000-0000")
+            listItem(title: "문제 발생시 연락처", content: "880-1528")
                 .padding(.bottom ,10)
             
             Button(action: {

@@ -38,18 +38,17 @@ extension SeatSelectionView {
     
     var miniMap: some View {
         ZStack {
-            Rectangle()
-                .fill()
-                .foregroundColor(Color("Text"))
-                .frame(
-                    width: MapUtil.miniMapWidth,
-                    height: MapUtil.miniMapHeight
-                )
             Image("MiniMap")
                 .resizable()
                 .frame(
                     width: MapUtil.miniMapWidth,
                     height: MapUtil.miniMapHeight
+                )
+                .padding(5)
+                .background(
+                    Rectangle()
+                        .fill()
+                        .foregroundColor(Color("Text"))
                 )
             
             ForEach(viewModel.seatInfos, id: \.id) { seat in
@@ -62,6 +61,7 @@ extension SeatSelectionView {
                     )
                     .position(MapUtil.transformCoordinate(seat.x, seat.y))
             }
+            .padding(5)
             
             Rectangle()
                 .stroke(lineWidth: 3)
@@ -75,8 +75,8 @@ extension SeatSelectionView {
                     y: MapUtil.getBoxHeight(zoom: offset.zoom)/2
                 )
                 .offset(
-                    x: MapUtil.transformXOffset(offset.x, zoom: offset.zoom),
-                    y: MapUtil.transformYOffset(offset.y, zoom: offset.zoom)
+                    x: MapUtil.transformXOffset(offset.x, zoom: offset.zoom)+5,
+                    y: MapUtil.transformYOffset(offset.y, zoom: offset.zoom)+5
                 )
                 .clipped()
         }

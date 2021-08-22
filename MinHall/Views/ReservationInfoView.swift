@@ -122,6 +122,9 @@ struct ReservationInfoView: View {
             viewModel.loadReservationInfo()
             viewModel.scheduleTimerAndNotification()
         }
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
+            viewModel.scheduleTimerAndNotification()
+        }
     }
 }
 

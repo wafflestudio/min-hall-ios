@@ -45,7 +45,7 @@ struct LegacyScrollView<Content: View>: UIViewRepresentable {
         uiScrollView.delegate = context.coordinator
         
         uiScrollView.translatesAutoresizingMaskIntoConstraints = false
-        uiScrollView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height-200).isActive = true
+        uiScrollView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height-MapUtil.screenHeightMargin).isActive = true
         uiScrollView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width).isActive = true
         
         uiScrollView.showsVerticalScrollIndicator = false
