@@ -26,6 +26,7 @@ extension SettingsView {
         .frame(height: 64)
         .frame(maxWidth: .infinity)
         .background(Color.white)
+        .padding(.bottom, 1)
     }
     
     var backButton: some View {
@@ -48,22 +49,26 @@ struct SettingsView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            listItem(title: "문제 발생시 연락처", content: "880-1528")
-                .padding(.bottom ,10)
-            
-            Button(action: {
-                viewModel.showLogoutAlert = true
-            }) {
-                listItem(title: "로그아웃")
-            }
-            .padding(.bottom, 10)
-            
-            Spacer()
+            ScrollView {
+                VStack(spacing: 0) {
+                    listItem(title: "문제 발생시 연락처", content: "880-1528")
+                    listItem(title: "Wi-Fi", content: "\(viewModel.wiFiName) (비밀번호: \(viewModel.wiFiPassword))")
+                        .padding(.bottom ,10)
+                    
+                    Button(action: {
+                        viewModel.showLogoutAlert = true
+                    }) {
+                        listItem(title: "로그아웃")
+                    }
+                    .padding(.bottom, 10)
 
-            Image("WaffleLogo")
-                .frame(width: 200, height: 73.6)
-                .padding(.bottom, 70)
+                    Image("WaffleLogo")
+                        .frame(width: 200, height: 73.6)
+                        .padding([.top, .bottom], 70)
+                }
+            }
         }
+        .padding(.top, 2)
         .navigationBar(leadingItem: backButton)
         .background(Color("Background"))
         .edgesIgnoringSafeArea(.bottom)

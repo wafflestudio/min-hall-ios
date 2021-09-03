@@ -4,10 +4,33 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>MinHall.xcscheme_^#shared#^_</key>
+		<key>MinHall-debug.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>3</integer>
+		</dict>
+		<key>MinHall-release.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>4</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>1E8A2C1D26A9E9C00029CD19</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>1E8A2C3326A9E9C30029CD19</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>1E8A2C3E26A9E9C30029CD19</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>

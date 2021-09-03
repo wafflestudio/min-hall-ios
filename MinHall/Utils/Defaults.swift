@@ -15,4 +15,11 @@ extension DefaultsKeys {
     var password: DefaultsKey<String?> { .init("password") }
     
     var reserved: DefaultsKey<Bool> { .init("reserved", defaultValue: false) }
+    
+    var lastNotificationId: DefaultsKey<Int> { .init("lastNotificationId", defaultValue: 0) }
+    var lastWarningId: DefaultsKey<Int> { .init("lastWarningId", defaultValue: 0) }
+    
+    var wiFiName: DefaultsKey<String> { .init("wiFiName", defaultValue: "") }
+    var wiFiPassword: DefaultsKey<String> { .init("wiFiPassword", defaultValue: "") }
+
 }

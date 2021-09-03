@@ -120,10 +120,10 @@ struct ReservationInfoView: View {
         .animation(nil)
         .onAppear {
             viewModel.loadReservationInfo()
-            viewModel.scheduleTimerAndNotification()
+            viewModel.scheduleNotification()
         }
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
-            viewModel.scheduleTimerAndNotification()
+            viewModel.scheduleNotification()
         }
     }
 }

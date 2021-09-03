@@ -193,20 +193,20 @@ struct TimeSelectionView: View {
             doneButton
         }
         .navigationBar(leadingItem: backButton, trailingItem: dotsButton)
-        .announceModal(isActive: $viewModel.showAnnounce, title: "공간 사용 시 주의사항", content: viewModel.announce)
-        .announceModal(isActive: $viewModel.showWarning, title: "경고 알림", content: viewModel.warning, critical: true)
+        .announceModal(isActive: $viewModel.showAnnounce, title: viewModel.announceTitle, content: viewModel.announceMessage)
+        .announceModal(isActive: $viewModel.showWarning, title: viewModel.warningTitle, content: viewModel.warningMessage, critical: true)
         .background(Color("Background"))
         .edgesIgnoringSafeArea(.bottom)
         .loader(loading: $viewModel.loading)
         .animation(nil)
         .onAppear {
-            viewModel.fetchTime()
+            viewModel.fetchReservationSettings()
             viewModel.onExtended = {
                 self.presentationMode.wrappedValue.dismiss()
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
-            viewModel.fetchTime()
+            viewModel.fetchReservationSettings()
         }
         .onDisappear {
             viewModel.onExtended = nil

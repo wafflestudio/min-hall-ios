@@ -11,8 +11,15 @@ import SwiftyUserDefaults
 
 class SettingsViewModel: ObservableObject {
     @Published var showLogoutAlert: Bool = false
+    @Published var wiFiName: String = ""
+    @Published var wiFiPassword: String = ""
     
     var onLoggedOut: (() -> ())? = nil
+    
+    init() {
+        wiFiName = Defaults[\.wiFiName]
+        wiFiPassword = Defaults[\.wiFiPassword]
+    }
     
     func logout() {
         (onLoggedOut ?? {})()

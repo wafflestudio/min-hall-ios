@@ -29,20 +29,26 @@ class AppState: ObservableObject {
             .assign(to: \.hasReservation, on: self)
             .store(in: &cancellables)
         
-        if system.accessToken != nil {
-            self.loading = true
-            
-            Networking.shared.getMyReservation()
-                .handleEvents(receiveCompletion: { [weak self] _ in
-                    self?.loading = false
-                })
-                .receive(on: RunLoop.main)
-                .sink { [weak self] reservation in
-                    self?.loading = false
-                    AppState.shared.reservationData.reservation = reservation
-                }
-                .store(in: &cancellables)
-        }
+        $system
+            .filter { $0.accessToken != nil }
+            .removeDuplicates(by: { $0.accessToken == $1.accessToken })
+            .sink { [weak self] _ in
+                self?.fetchReservation()
+            }
+            .store(in: &cancellables)
+    }
+    
+    func fetchReservation() {
+        Networking.shared.getMyReservation()
+            .handleEvents(receiveCompletion: { [weak self] _ in
+                self?.loading = false
+            })
+            .receive(on: RunLoop.main)
+            .sink { [weak self] reservation in
+                self?.loading = false
+                AppState.shared.reservationData.reservation = reservation
+            }
+            .store(in: &cancellables)
     }
 }
 

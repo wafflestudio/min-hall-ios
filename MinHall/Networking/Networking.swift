@@ -123,9 +123,9 @@ class Networking {
             .eraseToAnyPublisher()
     }
     
-    func getOperatingTime() -> AnyPublisher<OperatingTimeResponse, Never> {
+    func getReservationSettings() -> AnyPublisher<ReservationSettingsResponse, Never> {
         let request = session.request(MinHallAPI.getOperatingTime)
-        return request.validate(validation).publishDecodable(type: OperatingTimeResponse.self)
+        return request.validate(validation).publishDecodable(type: ReservationSettingsResponse.self)
             .value()
             .catch(errorHandler)
             .eraseToAnyPublisher()

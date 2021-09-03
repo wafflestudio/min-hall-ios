@@ -96,6 +96,7 @@ struct LoginView: View {
                 Image("SplashLogo")
                     .resizable()
                     .frame(width: 95, height: 66)
+                    .padding(.top, 16)
                     .padding(.bottom, 6)
                 
                 Image("SplashTitle")
@@ -105,8 +106,8 @@ struct LoginView: View {
                 Spacer()
                 
                 loginSection
-                    .padding(.bottom, 50)
                 
+                Spacer()
                 Spacer()
                 
                 Button(action: {
@@ -133,7 +134,6 @@ struct LoginView: View {
             .edgesIgnoringSafeArea(.all)
             .loader(loading: $viewModel.loading)
         }
-        .ignoresSafeArea(.keyboard)
         .onAppear {
             viewModel.onLoggedIn = presentMain
         }

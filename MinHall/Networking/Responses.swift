@@ -21,14 +21,17 @@ struct SeatResponse: Codable {
     var seats: [SeatDto]
 }
 
-struct OperatingTimeResponse: Codable {
+struct ReservationSettingsResponse: Codable {
     var openTime: String
     var closeTime: String
+    var wiFiName: String
+    var wiFiPassword: String
 }
 
 struct MessageResponse: Codable {
-    var show: Bool
-    var message: String
+    var version: Int
+    var title: String?
+    var message: String?
 }
 
 struct ErrorResponse: Codable {

@@ -32,10 +32,12 @@ class TimeSelectionViewModel: ObservableObject {
     @Published var loading: Bool = false
     
     @Published var showAnnounce: Bool = false
-    @Published var announce: String = "공간 사용 시 외부 음식물은 섭취할 수 없습니다. 당일 예약만 가능하며, 좌석 예약 후 사용하지 않을 시 경고 조치되며 경고 2회 누적 시 익일 사용 불가합니다."
+    @Published var announceTitle: String = "공지사항"
+    @Published var announceMessage: String = ""
     
     @Published var showWarning: Bool = false
-    @Published var warning: String = ""
+    @Published var warningTitle: String = "경고"
+    @Published var warningMessage: String = ""
     
     @Published var startHour: Int = 0
     @Published var startMinute: Int = 0
@@ -114,13 +116,13 @@ class TimeSelectionViewModel: ObservableObject {
         }
     }
     
-    func fetchTime() {
-        Networking.shared.getOperatingTime()
+    func fetchReservationSettings() {
+        Networking.shared.getReservationSettings()
             .receive(on: RunLoop.main)
-            .sink { [weak self] operatingTime in
+            .sink { [weak self] settings in
                 guard let self = self else { return }
                 
-                let openTimeSplit = operatingTime.openTime.split(separator: ":")
+                let openTimeSplit = settings.openTime.split(separator: ":")
                 let openHour = Int(openTimeSplit[0]) ?? 0
                 let openMinute = Int(openTimeSplit[1]) ?? 0
                 
@@ -130,7 +132,7 @@ class TimeSelectionViewModel: ObservableObject {
                 self.endHourLowerLimit = openHour + (self.endMinuteLowerLimit / 60)
                 self.endMinuteLowerLimit %= 60
                 
-                let closeTimeSplit = operatingTime.closeTime.split(separator: ":")
+                let closeTimeSplit = settings.closeTime.split(separator: ":")
                 let closeHour = Int(closeTimeSplit[0]) ?? 0
                 let closeMinute = Int(closeTimeSplit[1]) ?? 0
                 
@@ -143,6 +145,9 @@ class TimeSelectionViewModel: ObservableObject {
                     self.startMinuteUpperLimit += (60 * -hDelta)
                     self.startHourUpperLimit += hDelta
                 }
+                
+                Defaults[\.wiFiName] = settings.wiFiName
+                Defaults[\.wiFiPassword] = settings.wiFiPassword
                 
                 self.setupTimes()
             }
@@ -162,10 +167,17 @@ class TimeSelectionViewModel: ObservableObject {
                     self?.loading = false
                 })
                 .sink { [weak self] noti, warn in
-                    self?.showAnnounce = noti.show
-                    self?.announce = noti.message
-                    self?.showWarning = warn.show
-                    self?.warning = warn.message
+                    let lastNotificationId = Defaults[\.lastNotificationId]
+                    let lastWarningId = Defaults[\.lastWarningId]
+                    self?.showAnnounce = lastNotificationId < noti.version
+                    self?.showWarning = lastWarningId < warn.version
+                    Defaults[\.lastNotificationId] = noti.version
+                    Defaults[\.lastWarningId] = warn.version
+                    
+                    self?.announceTitle = noti.title ?? ""
+                    self?.announceMessage = noti.message ?? ""
+                    self?.warningTitle = warn.title ?? ""
+                    self?.warningMessage = warn.message ?? ""
                 }
                 .store(in: &cancellables)
         }

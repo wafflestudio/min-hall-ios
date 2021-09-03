@@ -13,6 +13,9 @@ import SwiftyUserDefaults
 class ReservationInfoViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     
+    let formatter = DateFormatter()
+    private let timerPublisher = Timer.TimerPublisher(interval: 1, runLoop: .main, mode: .default)
+    
     @Published var loading: Bool = false
     
     @Published var reservationId: Int = 0
@@ -30,7 +33,12 @@ class ReservationInfoViewModel: ObservableObject {
     var onCanceled: () -> Void = {}
     
     init() {
+        formatter.locale = Locale(identifier: "ko_kr")
+        formatter.dateFormat = "HH:mm"
+        
         loadReservationInfo()
+        
+        timerPublisher.connect().store(in: &cancellables)
         
         $seatId
             .dropFirst()
@@ -50,11 +58,21 @@ class ReservationInfoViewModel: ObservableObject {
                 self?.onCanceled()
             }
             .store(in: &cancellables)
+        
+        timerPublisher
+            .sink { [weak self] now in
+                guard let self = self else { return }
+                let nowInString = self.formatter.string(from: now)
+                if nowInString > self.endTime {
+                    AppState.shared.reservationData.reservation = Reservation()
+                }
+            }
+            .store(in: &cancellables)
     }
     
     func loadReservationInfo() {
         let reservation = AppState.shared.reservationData.reservation
-        if  let id = reservation.id {
+        if let id = reservation.id {
             self.reservationId = id
             let sIdx = reservation.startTime.index(reservation.startTime.endIndex, offsetBy: -5)
             self.startTime = String(reservation.startTime[sIdx...])
@@ -65,13 +83,11 @@ class ReservationInfoViewModel: ObservableObject {
         AppState.shared.reservationData.newReservation = Reservation()
     }
     
-    func scheduleTimerAndNotification() {
+    func scheduleNotification() {
         let manager = LocalNotificationManager()
         let endTimeSplit = endTime.split(separator: ":")
         var alertHour = Int(endTimeSplit[0]) ?? 0
         var alertMinute = Int(endTimeSplit[1]) ?? 0
-        
-        let fireDate = Calendar.current.date(bySettingHour: alertHour, minute: alertMinute, second: 0, of: Date())!
         
         alertMinute -= 5
         if alertMinute < 0 {
@@ -79,12 +95,6 @@ class ReservationInfoViewModel: ObservableObject {
             alertHour -= 1
         }
         manager.scheduleNotification(title: "민상렬홀 좌석 사용", body: "좌석 사용 시간이 곧 만료됩니다.", hour: alertHour, minute: alertMinute)
-        
-        let timer = Timer.init(fire: fireDate, interval: 0, repeats: false, block: { _ in
-            AppState.shared.reservationData.reservation = Reservation()
-        })
-        
-        RunLoop.current.add(timer, forMode: .common)
     }
     
     func cancelReservation() {

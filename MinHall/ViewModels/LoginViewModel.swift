@@ -36,6 +36,7 @@ class LoginViewModel: ObservableObject {
             .receive(on: RunLoop.main)
             .handleEvents(receiveOutput: { [weak self] token in
                 self?.loading = false
+                AppState.shared.system.accessToken = token.token
             }, receiveCompletion: { [weak self] _ in
                 self?.loading = false
             })

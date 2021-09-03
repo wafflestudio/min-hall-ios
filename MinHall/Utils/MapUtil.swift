@@ -14,7 +14,10 @@ class MapUtil {
     static let miniMapWidth: CGFloat = 184
     static let miniMapHeight: CGFloat = 80
     
-    static let screenHeightMargin: CGFloat = 200
+    static let screenHeightMargin: CGFloat = CGFloat(40) +
+        UIApplication.shared.windows[0].safeAreaInsets.top +
+        CGFloat(100) +
+        UIApplication.shared.windows[0].safeAreaInsets.bottom
     
     static let seatSize: CGFloat = 42
     static let miniSeatSize: CGFloat = 4.5

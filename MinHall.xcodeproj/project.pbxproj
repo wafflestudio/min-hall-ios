@@ -692,13 +692,15 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"MinHall/Preview Content\"";
 				DEVELOPMENT_TEAM = S23G35QQ2V;
+				DISPLAY_NAME = "SNU 민상렬홀-debug";
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = MinHall/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.wafflestudio.MinHall;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.wafflestudio.MinHall-debug";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -714,8 +716,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"MinHall/Preview Content\"";
 				DEVELOPMENT_TEAM = S23G35QQ2V;
+				DISPLAY_NAME = "SNU 민상렬홀";
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = MinHall/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

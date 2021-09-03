@@ -10,11 +10,11 @@ import Alamofire
 
 enum MHError: String, Error {
     init(_ error: AFError) {
-        self = .network
+        self = .unknown
     }
     
     init(code: String) {
-        self = (.init(rawValue: code) ?? .network)
+        self = (.init(rawValue: code) ?? .unknown)
     }
     
     // Client Error
@@ -44,6 +44,7 @@ enum MHError: String, Error {
     case todayReservationNotFound = "R002"
     case reservationNumberExceed = "R003"
     case reservationTimeInvalid = "R004"
+    case lateReservationTime = "R005"
     
     // Seat
     case seatNotFound = "S001"
@@ -83,6 +84,8 @@ enum MHError: String, Error {
             return "이미 오늘 좌석을 예약하셨습니다."
         case .reservationTimeInvalid:
             return "예약이 불가능한 시간입니다."
+        case .lateReservationTime:
+            return "예약 시간이 이미 지났습니다. 시간을 다시 선택해주세요."
             
         case .seatNotFound:
             return "없는 좌석입니다."
