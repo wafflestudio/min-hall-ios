@@ -168,11 +168,9 @@ class TimeSelectionViewModel: ObservableObject {
                 })
                 .sink { [weak self] noti, warn in
                     let lastNotificationId = Defaults[\.lastNotificationId]
-                    let lastWarningId = Defaults[\.lastWarningId]
                     self?.showAnnounce = lastNotificationId < noti.version
-                    self?.showWarning = lastWarningId < warn.version
+                    self?.showWarning = warn.show
                     Defaults[\.lastNotificationId] = noti.version
-                    Defaults[\.lastWarningId] = warn.version
                     
                     self?.announceTitle = noti.title ?? ""
                     self?.announceMessage = noti.message ?? ""

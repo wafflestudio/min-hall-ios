@@ -51,7 +51,7 @@ struct LegacyScrollView<Content: View>: UIViewRepresentable {
         uiScrollView.showsVerticalScrollIndicator = false
         uiScrollView.showsHorizontalScrollIndicator = false
         uiScrollView.maximumZoomScale = 2
-        uiScrollView.minimumZoomScale = 0.7
+        uiScrollView.minimumZoomScale = 0.8
         
         let viewToScroll = hosting.view!
         

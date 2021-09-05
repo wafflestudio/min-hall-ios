@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "1E8A2C1D26A9E9C00029CD19"
-               BuildableName = "SNU &#x1106;&#x1175;&#x11ab;&#x1109;&#x1161;&#x11bc;&#x1105;&#x1167;&#x11af;&#x1112;&#x1169;&#x11af;.app"
+               BuildableName = "MinHall.app"
                BlueprintName = "MinHall"
                ReferencedContainer = "container:MinHall.xcodeproj">
             </BuildableReference>
@@ -65,7 +65,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1E8A2C1D26A9E9C00029CD19"
-            BuildableName = "SNU &#x1106;&#x1175;&#x11ab;&#x1109;&#x1161;&#x11bc;&#x1105;&#x1167;&#x11af;&#x1112;&#x1169;&#x11af;.app"
+            BuildableName = "MinHall.app"
             BlueprintName = "MinHall"
             ReferencedContainer = "container:MinHall.xcodeproj">
          </BuildableReference>
@@ -82,7 +82,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1E8A2C1D26A9E9C00029CD19"
-            BuildableName = "SNU &#x1106;&#x1175;&#x11ab;&#x1109;&#x1161;&#x11bc;&#x1105;&#x1167;&#x11af;&#x1112;&#x1169;&#x11af;.app"
+            BuildableName = "MinHall.app"
             BlueprintName = "MinHall"
             ReferencedContainer = "container:MinHall.xcodeproj">
          </BuildableReference>

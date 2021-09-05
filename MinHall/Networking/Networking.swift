@@ -139,9 +139,9 @@ class Networking {
             .eraseToAnyPublisher()
     }
     
-    func getWarning() -> AnyPublisher<MessageResponse, Never> {
+    func getWarning() -> AnyPublisher<WarningResponse, Never> {
         let request = session.request(MinHallAPI.getWarning)
-        return request.validate(validation).publishDecodable(type: MessageResponse.self)
+        return request.validate(validation).publishDecodable(type: WarningResponse.self)
             .value()
             .catch(errorHandler)
             .eraseToAnyPublisher()

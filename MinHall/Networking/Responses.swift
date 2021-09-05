@@ -34,6 +34,12 @@ struct MessageResponse: Codable {
     var message: String?
 }
 
+struct WarningResponse: Codable {
+    var show: Bool
+    var title: String?
+    var message: String?
+}
+
 struct ErrorResponse: Codable {
     var status: Int
     var message: String

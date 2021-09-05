@@ -96,7 +96,7 @@ struct LoginView: View {
                 Image("SplashLogo")
                     .resizable()
                     .frame(width: 95, height: 66)
-                    .padding(.top, 16)
+                    .padding(.top, 32)
                     .padding(.bottom, 6)
                 
                 Image("SplashTitle")
