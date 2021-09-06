@@ -23,7 +23,8 @@ class SettingsViewModel: ObservableObject {
     
     func logout() {
         (onLoggedOut ?? {})()
-        AppState.shared.system.accessToken = nil
+        AppState.shared.system = AppState.System()
+        AppState.shared.reservationData = AppState.ReservationData()
         Defaults[\.accessToken] = nil
         Defaults[\.username] = nil
         Defaults[\.password] = nil

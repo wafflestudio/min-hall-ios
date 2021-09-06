@@ -63,7 +63,7 @@ class ReservationInfoViewModel: ObservableObject {
             .sink { [weak self] now in
                 guard let self = self else { return }
                 let nowInString = self.formatter.string(from: now)
-                if nowInString > self.endTime {
+                if self.endTime != "" && nowInString >= self.endTime  {
                     AppState.shared.reservationData.reservation = Reservation()
                 }
             }
