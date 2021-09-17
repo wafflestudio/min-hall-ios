@@ -16,6 +16,9 @@ class LoginViewModel: ObservableObject {
     @Published var username: String = ""
     @Published var password: String = ""
     
+    @Published var destinationURL: String? = nil
+    @Published var showSheet: Bool = false
+    
     @Published var loggedIn: Bool = false
     
     var onLoggedIn: () -> Void = {}
@@ -26,6 +29,14 @@ class LoginViewModel: ObservableObject {
             .sink { [weak self] _ in
                 self?.onLoggedIn()
             }
+            .store(in: &cancellables)
+        
+        $destinationURL
+            .filter { $0 != nil }
+            .removeDuplicates()
+            .map { _ in true }
+            .receive(on: RunLoop.main)
+            .assign(to: \.showSheet, on: self)
             .store(in: &cancellables)
     }
     

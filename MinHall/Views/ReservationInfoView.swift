@@ -63,6 +63,7 @@ struct ReservationInfoView: View {
                     
                     Image("MiniMapSeatSelected")
                         .resizable()
+                        .scaleEffect(1.1)
                         .rotationEffect(viewModel.seatAngle)
                         .frame(width: 7, height: 7)
                         .position(

@@ -37,7 +37,9 @@ extension LoginView {
             HStack {
                 Spacer()
                 
-                Link(destination: URL(string: "https://id.snucse.org/verify")!) {
+                Button(action: {
+                    viewModel.destinationURL = "https://id.snucse.org/verify"
+                }) {
                     Text("가입신청")
                         .font(.system(size: 14, weight: .bold))
                         .foregroundColor(.white)
@@ -72,7 +74,9 @@ extension LoginView {
             HStack {
                 Spacer()
                 
-                Link(destination: URL(string: "https://id.snucse.org/password-reset")!) {
+                Button(action: {
+                    viewModel.destinationURL = "https://id.snucse.org/password-reset"
+                }) {
                     Text("비밀번호 찾기")
                         .font(.system(size: 14, weight: .bold))
                         .foregroundColor(.white)
@@ -137,6 +141,9 @@ struct LoginView: View {
         .onAppear {
             viewModel.onLoggedIn = presentMain
         }
+        .sheet(isPresented: $viewModel.showSheet, content: {
+            SafariView(url: URL(string: viewModel.destinationURL ?? "")!)
+        })
         .alertModal(
             isActive: $appState.system.error,
             content: appState.system.errorMessage ?? "알 수 없는 에러가 발생했습니다.",
